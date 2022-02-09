@@ -116,19 +116,19 @@
 	//バグあり
 	//ボールが赤四角の中にいたら赤四角のサイズが0になる
 	
-	if(xa < x < xa+sa && ya > y > ya+sa-10) {
+	if(xa < x && x < xa+sa && ya < y && y < ya+sa-10) {
 	sa = 0;
 	}
 	
-	if(xb < x < xb+sb && ya > y > ya+sb-10) {
+	if(xb < x && x < xb+sb && ya < y && y < ya+sb-10) {
 	sb = 0;
 	}
 	
-	if(xc < x < xc+sc && ya > y > ya+sc-10) {
+	if(xc < x && x < xc+sc && ya < y && y < ya+sc-10) {
 	sc = 0;
 	}
 	
-	if(xd < x < xd+sd && ya > y > ya+sd-10) {
+	if(xd < x && x < xd+sd && ya < y && y < ya+sd-10) {
 	sd = 0;
 	}
 	
