@@ -18,7 +18,7 @@
 	var x = canvas.width/2;
 	var y = canvas.height-30;
 	var dx = 0;
-	var dy = -2;
+	var dy = 0;
 	var ballRadius = 10;
 	var paddleHeight = 30;
 	var paddleWidth = 30
@@ -119,9 +119,14 @@
 	
 	
 	if(uppressed = true && y < 0) {
-	y = canvas.height-30;
-	x = paddleX+15;
-	uppressed = false;
+		dy = 0;
+		y = canvas.height-30;
+		
+		uppressed = false;
+	}
+
+	if(dy == 0){
+		x = paddleX+15;
 	}
 	
 	if(rightpressed && paddleX < canvas.width-paddleWidth) {
@@ -142,6 +147,7 @@
 	    leftpressed = true;
 	}
 	if(e.key == "Up" || e.key == "ArrowUp") {
+		dy = -5;
 		uppressed = true;
 	}
 	}
