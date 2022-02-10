@@ -54,59 +54,59 @@
 	
 	
 	function drawblockb(){
-	ctx.beginPath();
-	ctx.rect( xb, ya, sb, sb-10);
-	ctx.fillStyle = "red";
-	ctx.fill();
-	ctx.closePath();
+		ctx.beginPath();
+		ctx.rect( xb, ya, sb, sb-10);
+		ctx.fillStyle = "red";
+		ctx.fill();
+		ctx.closePath();
 	}
 	
 	function drawblocka(){
-	ctx.beginPath();
-	ctx.rect( xa, ya, sa, sa-10);
-	ctx.fillStyle = "red";
-	ctx.fill();
-	ctx.closePath();
+		ctx.beginPath();
+		ctx.rect( xa, ya, sa, sa-10);
+		ctx.fillStyle = "red";
+		ctx.fill();
+		ctx.closePath();
 	}
 	
 	function drawblockc(){
-	ctx.beginPath();
-	ctx.rect( xc, ya, sc, sc-10);
-	ctx.fillStyle = "red";
-	ctx.fill();
-	ctx.closePath();
+		ctx.beginPath();
+		ctx.rect( xc, ya, sc, sc-10);
+		ctx.fillStyle = "red";
+		ctx.fill();
+		ctx.closePath();
 	}
 	
 	function drawblockd(){
-	ctx.beginPath();
-	ctx.rect( xd, ya, sd, sd-10);
-	ctx.fillStyle = "red";
-	ctx.fill();
-	ctx.closePath();
+		ctx.beginPath();
+		ctx.rect( xd, ya, sd, sd-10);
+		ctx.fillStyle = "red";
+		ctx.fill();
+		ctx.closePath();
 	}
 	
 	function drawPaddle() {
-	ctx.beginPath();
-	ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-	ctx.fillStyle = "#0095DD";
-	ctx.fill();
-	ctx.closePath();
+		ctx.beginPath();
+		ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+		ctx.fillStyle = "#0095DD";
+		ctx.fill();
+		ctx.closePath();
 	}
 	
 	function drawBall() {
-	ctx.beginPath();
-	ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-	ctx.fillStyle = "black";
-	ctx.fill();
-	ctx.closePath();
+		ctx.beginPath();
+		ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+		ctx.fillStyle = "black";
+		ctx.fill();
+		ctx.closePath();
 	}
 	
 	function drawBalla() {
-	ctx.beginPath();
-	ctx.arc(eatkx, eatky, eatks, 0, Math.PI*2);
-	ctx.fillStyle = "red";
-	ctx.fill();
-	ctx.closePath();
+		ctx.beginPath();
+		ctx.arc(eatkx, eatky, eatks, 0, Math.PI*2);
+		ctx.fillStyle = "#ff8866";
+		ctx.fill();
+		ctx.closePath();
 	}
 	
 	function draw() {
@@ -132,26 +132,21 @@
 	//敵攻撃(バグあり)
 	//花火攻撃
 	
-	if(time == 300) {
-	eatkx = x;
-	eatky = y - 20;
-	eatks = 1;
-	time = 0;
-	console.log("300")
+	if(time == 30) {
+		eatkx = x;
+		eatky = y - 20;
+		eatks = 10;
+		time = 0;
+		console.log("300")
 	}
 	
 	if(eatks > 0) {
-	while(eatks < 100){
-	eatks += 1;
-	}
+		eatks += 1;
 	}
 	
-	if(eatks = 100) {
-	eatks = 0;
+	if(eatks == 100) {
+		eatks = 0;
 	}
-	
-	
-	
 	
 	//スコア関係
 	
