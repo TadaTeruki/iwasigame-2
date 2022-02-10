@@ -19,7 +19,7 @@
 	var y = canvas.height-30;
 	var dx = 0;
 	var dy = 0;
-	var ballRadius = 10;
+	var ballRadius = 5;
 	var paddleHeight = 30;
 	var paddleWidth = 30
 	var paddleX = (canvas.width-paddleWidth)/2;
@@ -30,16 +30,22 @@
 	var xc = 170;
 	var xd = 250;
 	var dxx = 1;
-	var sa = 40;
-	var sb = 40;
-	var sc = 40;
-	var sd = 40;
+	var sa = 30;
+	var sb = 30;
+	var sc = 30;
+	var sd = 30;
 	var rightpressed = false;
 	var leftpressed = false;
 	var uppressed = false;
 	var score = 0;
-	var hp = 1;
+	var hp = 20;
 	var time = 0;
+	var eatk = 0;
+	
+	function ran() {
+	var ran = Math.floor(Math.random * 10 + 1);
+	}
+	
 	
 	function drawblockb(){
 	ctx.beginPath();
@@ -91,7 +97,17 @@
 	ctx.closePath();
 	}
 	
+	function drawBalla() {
+	ctx.beginPath();
+	ctx.arc(xa, ya, 3, 0, Math.PI*2);
+	ctx.fillStyle = "red";
+	ctx.fill();
+	ctx.closePath();
+	}
 	
+	function score() {
+	document.write(score);
+	}
 	
 	
 	
@@ -103,6 +119,8 @@
 	drawblockb();
 	drawblockc();
 	drawblockd();
+	drawBalla();
+	
 	
 	x += dx;
 	y += dy;
@@ -113,26 +131,41 @@
 	xd += dxx;
 	time += 1;
 	
-	//バグあり
-	//ボールが赤四角の中にいたら赤四角のサイズが0になる
+	
+	//スコア関係
 	
 	if(xa < x && x < xa+sa && ya < y && y < ya+sa-10) {
 	sa = 0;
+	score += 1;
 	}
 	
 	if(xb < x && x < xb+sb && ya < y && y < ya+sb-10) {
 	sb = 0;
+	score += 1;
 	}
 	
 	if(xc < x && x < xc+sc && ya < y && y < ya+sc-10) {
 	sc = 0;
+	score += 1;
 	}
 	
 	if(xd < x && x < xd+sd && ya < y && y < ya+sd-10) {
 	sd = 0;
+	score += 1;
 	}
 	
-	//バグありゾーン終
+	if(score == 4 || score == 8 || score == 12 || score == 16) {
+	sa = 25;
+	sb = 25;
+	sc = 25;
+	sd = 25;
+	}
+	
+	if(score == 20) {
+	window.alert("ゲーム終了");
+	}
+	
+	//ブロック関係
 	
 	if(xd > 275 || xa < 5) {
 	dxx = -dxx;
@@ -157,6 +190,8 @@
 	if(dy == 0){
 		x = paddleX+15;
 	}
+	
+	// キー関係
 	
 	if(rightpressed && paddleX < canvas.width-paddleWidth) {
 	paddleX += 3;
@@ -190,6 +225,8 @@
 	}
 	}
 	setInterval(draw, 10);
+	
+	
 	
 	
 </script>
