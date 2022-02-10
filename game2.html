@@ -40,10 +40,16 @@
 	var score = 0;
 	var hp = 20;
 	var time = 0;
-	var eatk = 0;
+	var eatks = 0;
+	var eatkx = x;
+	var eatky = y;
+	var random = Math.floor( Math.random() * 2 );
+	
+	console.log(random)
+	
 	
 	function ran() {
-	var ran = Math.floor(Math.random * 10 + 1);
+	var ran = Math.floor(Math.random() * 10 + 1);
 	}
 	
 	
@@ -87,8 +93,6 @@
 	ctx.closePath();
 	}
 	
-	
-	
 	function drawBall() {
 	ctx.beginPath();
 	ctx.arc(x, y, ballRadius, 0, Math.PI*2);
@@ -99,17 +103,11 @@
 	
 	function drawBalla() {
 	ctx.beginPath();
-	ctx.arc(xa, ya, 3, 0, Math.PI*2);
+	ctx.arc(eatkx, eatky, eatks, 0, Math.PI*2);
 	ctx.fillStyle = "red";
 	ctx.fill();
 	ctx.closePath();
 	}
-	
-	function score() {
-	document.write(score);
-	}
-	
-	
 	
 	function draw() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -120,7 +118,7 @@
 	drawblockc();
 	drawblockd();
 	drawBalla();
-	
+	ran();
 	
 	x += dx;
 	y += dy;
@@ -130,6 +128,29 @@
 	xc += dxx;
 	xd += dxx;
 	time += 1;
+	
+	//敵攻撃(バグあり)
+	//花火攻撃
+	
+	if(time == 300) {
+	eatkx = x;
+	eatky = y - 20;
+	eatks = 1;
+	time = 0;
+	console.log("300")
+	}
+	
+	if(eatks > 0) {
+	while(eatks < 100){
+	eatks += 1;
+	}
+	}
+	
+	if(eatks = 100) {
+	eatks = 0;
+	}
+	
+	
 	
 	
 	//スコア関係
