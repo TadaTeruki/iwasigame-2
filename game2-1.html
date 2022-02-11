@@ -144,7 +144,7 @@
 	time += 1;
 	
 	//敵攻撃
-	//花火攻撃
+	//花火型攻撃
 	
 	if(random == 0) {
 	if(time == 500) {
@@ -161,25 +161,31 @@
 	if(eatksa == 100) {
 		eatksa = 0;
 		time = 0;
+		random = Math.floor( Math.random() * 2 );
+		console.log("ATK処理終了");
+		console.log(random);
 	}
 	}
 	
-	//爆弾攻撃
-	//ランダムなxにスポーンして降ってくる
+	//爆弾型攻撃
 	
-	if(random = 1) {
+	if(random == 1) {
 	if(time == 500) {
-	eatkxb = Math,fllor( Math.random() * 320 + 1);
-	eatkyb = 500;
-	eatksb = 30;
+	eatkxb = paddleX;
+	eatkyb = 400;
+	eatksb = 50;
 	console.log("500")
 	}
-	if(eatksb = 30) {
-	eatkyb += 15;
+	if(eatksb == 50) {
+	eatkyb += 2;
 	}
-	if(eatkyb = 640) {
+	if(eatkyb > 640) {
 	eatksb = 0;
 	time = 0;
+	console.log("ATK処理終了")
+	eatkyb = 0;
+	random = Math.floor( Math.random() * 2 );
+	console,log(random);
 	}
 	}
 	
@@ -217,6 +223,17 @@
 	}
 	
 	//ダメージ系
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
