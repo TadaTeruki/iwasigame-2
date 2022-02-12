@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+	<HTML>
+	<head>
+	<meta charset="utf-8"/>
+	<title> image_example </title>
+	<style>
+	*{ padding: 0; margin: 0; }
+	canvas { display:block; margin; 0 auto; }
+	</style>
+	</head>
+
+	<body>
+		<script src="image.js"></script>
+	
+	<canvas id="#canvas" width="320" height="640">
+	</canvas>
+
+	
+	<script>
+
+	function loadFinished(){
+		console.log("ロード終了");
+		
+		putImage(ctx, "test.png", 20, 20, 50, 70, POSITION_START, SIZE_EXTEND);
+		ctx.fillRect(20, 20, 50, 70);
+		
+		putImage(ctx, "test.png", 120, 20, 50, 70, POSITION_START, SIZE_FIX);
+		ctx.fillRect(120, 20, 50, 70);
+		
+		putImage(ctx, "test.png", 220, 20, 50, 70, POSITION_START, SIZE_WRAP);
+		ctx.fillRect(220, 20, 50, 70);
+
+	}
+	
+	var canvas = document.getElementById("#canvas");
+	var ctx = canvas.getContext("2d");
+	ctx.fillStyle = "#cccccc55";
+	
+	// 画像をロードする
+	// 終わったらloadFinished を実行
+	loadResources(["test.png"], loadFinished);
+	
+	
+</script>
+</body>
+</HTML>
