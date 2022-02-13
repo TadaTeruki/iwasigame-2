@@ -149,12 +149,14 @@
 		ctx.arc(eatkxc, eatkyc, eatksc, 0, Math.PI*2);
 		ctx.fillStyle = "#ff8866";
 		ctx.fill();
-		
+	}
+	
 	function drawBalle() {
 		ctx.beginPath();
 		ctx.arc(eatkxd, eatkyc, eatksc, 0, Math.PI*2);
 		ctx.fillStyle = "#ff8866";
 		ctx.fill();
+	}
 	
 	function draw() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -236,22 +238,22 @@
 	
 	if(random == 2) {
 	if(time == 500) {
-	eatkxc = paddlex-20;
-	eatkxd = paddlex+50;
-	eatkyc = canvas.height-paddleheight;
-	eatksc = 30;
+	eatkxc = paddleX-20;
+	eatkxd = paddleX+50;
+	eatkyc = canvas.height-paddleHeight+20;
+	eatksc = 5;
 	}
-	if(eatksc == 30) {
+	if(eatksc == 5) {
 	atktime += 1;
 	}
-	if(atktime > 100) {
+	if(atktime > 400) {
 	eatksc = 0;
 	eatkxc = 0;
 	eatkyc = 0;
 	eatkxd = 0;
 	atktime = 0;
 	time = 0;
-	random = math.floor( math.random() * 3 );
+	random = Math.floor( Math.random() * 3 );
 	console.log("ATK処理終了");
 	}
 	}
