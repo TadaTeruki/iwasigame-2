@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<HTML>
+<head>
+<meta charset="utf-8"/>
+<title> GAME1 </title>
+<style>
+*{ padding: 0; margin: 0; }
+canvas { background:#eee; display:block; margin:0 auto; }
+</style>
+</head>
+<body>
+
+<canvas id="#canvas" width="480" height="640">
+</canvas>
+<script>
+	var canvas = document.getElementById("#canvas");
+	var ctx = canvas.getContext("2d");
+
+	var paddle = {};
+	paddle.width = 30;
+	paddle.height = 30;
+	paddle.x = (canvas.width-paddle.width)/2;
+
+	let num_of_enemies = 4; // 敵の数
+	var enemy = new Array(num_of_enemies); // 新しい番号付き変数を 敵の数の分確保
+	for(var i = 0; i<num_of_enemies; i++){
+		enemy[i] = {};
+		enemy[i].x = 20 + i*130;	// xa, xb, xc, xd
+		enemy[i].y = 20;			// ya
+		enemy[i].dx = 1;			// dxx
+		enemy[i].dy = 1;			// dya
+		enemy[i].width  = 40;		// sa, sb, sc, sd
+		enemy[i].height = 30;		// sa-10, sb-10, sc-10, sd-10
+	}
+
+	let num_of_bullets = 1; // 弾の数
+	var bullet = new Array(num_of_bullets); // 新しい番号付き変数を 弾の数の分確保
+	for(var i = 0; i<num_of_bullets; i++){
+		bullet[i] = {};
+		bullet[i].x = canvas.width/2;	// x
+		bullet[i].y = canvas.height-30;	// y
+		bullet[i].dx = 0;				// dx
+		bullet[i].dy = 0;				// dy
+		bullet[i].radius = 5;			// ballRadius
+	}
+
+	var rightpressed = false;
+	var leftpressed = false;
+	var uppressed = false;
+	var downpressed = false;
+	var score = 0;
+	var hp = 200;
+	var time = 0;
+	var eatksa = 0;
+	var eatkxa = bullet[0].x;
+	var eatkya = bullet[0].y;
+	var eatksb = 0;
+	var eatkxb = bullet[0].x;
+	var eatkyb = bullet[0].y;
+	var eatka = 3;
+	var eatkb = 5;
+	var def = 0;
+	var abxa = 0;
+	var abya = 0;
+	var absa = 0;
+	var cooltimea = 0;
+	var aba = 0;
+	var c = 1;
+	var timeend = 0;
+	var eatkxc = 0;
+	var eatkyc = 0;
+	var eatksc = 0;
+	var eatkxd = 0;
+	var atktime = 0;
+	var random = Math.floor( Math.random() * 3 );
+	
+	console.log(random)
+	
+	function ran() {
+		var ran = Math.floor(Math.random() * 10 + 1);
+	}
+	
+	function drawblocks(){
+		for(var i = 0; i<num_of_enemies; i++){
+			ctx.beginPath();
+			ctx.rect(enemy[i].x, enemy[i].y, enemy[i].width, enemy[i].height);
+			ctx.fillStyle = "red";
+			ctx.fill();
+			ctx.closePath();
+		}
+	}
+
+	function drawPaddle() {
+		ctx.beginPath();
+		ctx.rect(paddle.x, canvas.height-paddle.height, paddle.width, paddle.height);
+		ctx.fillStyle = "#0095DD";
+		ctx.fill();
+		ctx.closePath();
+	}
+	
+	function drawBullets() {
+		for(var i = 0; i<num_of_bullets; i++){
+			ctx.beginPath();
+			ctx.arc(bullet[i].x, bullet[i].y, bullet[i].radius, 0, Math.PI*2);
+			ctx.fillStyle = "black";
+			ctx.fill();
+			ctx.closePath();
+		}
+
+	}
+	
+	function drawBalla() {
+		ctx.beginPath();
+		ctx.arc(eatkxa, eatkya, eatksa, 0, Math.PI*2);
+		ctx.fillStyle = "#ff8866";
+		ctx.fill();
+		ctx.closePath();
+	}
+	
+	function drawBallb() {
+		ctx.beginPath();
+		ctx.arc(eatkxb, eatkyb, eatksb, 0, Math.PI*2);
+		ctx.fillStyle = "#ff8866";
+		ctx.fill();
+		ctx.closePath();
+	}
+	
+	function drawBallc() {
+		ctx.beginPath();
+		ctx.arc(abxa, abya, absa, 0, Math.PI*2);
+		ctx.fillStyle = "black";
+		ctx.fill();
+		ctx.closePath();
+	}
+	
+	function drawBalld() {
+		ctx.beginPath();
+		ctx.arc(eatkxc, eatkyc, eatksc, 0, Math.PI*2);
+		ctx.fillStyle = "#ff8866";
+		ctx.fill();
+	}
+		
+	function drawBalle() {
+		ctx.beginPath();
+		ctx.arc(eatkxd, eatkyc, eatksc, 0, Math.PI*2);
+		ctx.fillStyle = "#ff8866";
+		ctx.fill();
+	}
+	
+	function draw() {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		drawBullets();
+		drawPaddle();
+		drawblocks();
+		drawBalla();
+		drawBallb();
+		drawBallc();
+		drawBalld();
+		drawBalle();
+		ran();
+
+
+		for(var i = 0; i<num_of_bullets; i++){
+			bullet[i].x += bullet[i].dx;
+			bullet[i].y += bullet[i].dy;
+		}
+
+		for(var i = 0; i<num_of_enemies; i++){
+			enemy[i].x += enemy[i].dx;
+			enemy[i].y += enemy[i].dy;
+		}
+
+		time += 1;
+		cooltimea += c;
+		timeend += 1;
+		
+		//敵攻撃
+		//花火型攻撃
+		
+		if(random == 0) {
+			if(time == 500) {
+				eatkxa = paddle.x;
+				eatkya = canvas.height-paddle.height - 30;
+				eatksa = 10;
+				console.log("300")
+			}
+			
+			if(eatksa > 0) {
+				eatksa += 1;
+			}
+			
+			if(eatksa == 90) {
+				eatksa = 0;
+				time = 0;
+				random = Math.floor( Math.random() * 3 );
+				console.log("ATK処理終了");
+				console.log("残りHP");
+				console.log(hp);
+				console.log(random);
+			}
+		}
+		
+		//爆弾型攻撃
+		
+		if(random == 1) {
+			if(time == 500) {
+				eatkxb = paddle.x;
+				eatkyb = 500;
+				eatksb = 50;
+				console.log("500")
+			}
+			if(eatksb == 50) {
+				eatkyb += 2;
+			}
+			if(eatkyb > 640) {
+				eatksb = 0;
+				time = 0;
+				console.log("ATK処理終了");
+				eatkyb = 0;
+				random = Math.floor( Math.random() * 3 );
+				console.log("残りHP");
+				console.log(hp);
+				console.log(random);
+			}
+		}
+		
+		//設置型攻撃
+		
+		if(random == 2) {
+			if(time == 500) {
+				eatkxc = paddle.x-20;
+				eatkxd = paddle.x+50;
+				eatkyc = canvas.height-paddle.height;
+				eatksc = 30;
+			}
+			if(eatksc == 30) {
+				atktime += 1;
+			}
+			if(atktime > 100) {
+				eatksc = 0;
+				eatkxc = 0;
+				eatkyc = 0;
+				eatkxd = 0;
+				atktime = 0;
+				time = 0;
+				random = Math.floor( Math.random() * 3 );
+				console.log("ATK処理終了");
+			}
+		}
+
+		//スコア,ブロックの当たり判定
+		for(var i = 0; i<num_of_enemies; i++){
+			for(var j = 0; j<num_of_bullets; j++){
+				if(enemy[i].x < bullet[j].x && bullet[j].x < enemy[i].x+enemy[i].width && enemy[i].y < bullet[j].y && bullet[j].y < enemy[i].y+enemy[i].height) {
+					enemy[i].width = 0;
+					score += 1;
+				}
+				
+				if(enemy[i].x < abxa && abxa+absa < enemy[i].x+enemy[i].width && enemy[i].y < abya && abya < enemy[i].y+enemy[i].height) {
+					enemy[i].width = 0;
+					score += 1;
+				}
+			}
+		}
+
+		for(var i = 0; i<num_of_enemies; i++){
+			if(score%4 == 0){
+				enemy[i].width  = 40;
+				enemy[i].height = 30;
+			}
+		}
+		
+		//ゲーム終了処理
+		
+		if(score == 20) {
+			window.alert("ゲームクリア");
+		}
+		if(hp < 1) {
+			window.alert("ゲームオーバー");
+		}
+		
+		if(timeend > 6000) {
+			window.alert("タイムアップ");
+		}
+		
+		//ダメージ系
+		
+		if(eatkyb > 610 && eatkyb < 640){
+			if(eatkxb + eatksb > paddle.x + 15 && eatkxb - eatksb < paddle.x + 15) {
+			hp -= eatkb;
+			hp += def;
+			console.log("ATKB:DMG5");
+			}
+		}
+		
+		if(eatksa > 60) { 
+			if(eatkxa + eatksa - 15 > paddle.x + 15 && eatkxa - eatksa + 15 < paddle.x + 15) {
+			hp -= eatka;
+			hp += def;
+			console.log("ATKA:DMG3");
+			}
+		}
+		
+		//アビリティー
+		
+		if(downpressed == true && cooltimea > 700) {
+			aba = 1;
+			cooltimea = 0;
+			console.log("アビリティー発動");
+		}
+		
+		if(aba == 1) {
+			abxa = paddle.x + 15;
+			abya = canvas.height-paddle.height;
+			absa = 40;
+			aba = 0;
+		}
+		
+		if(absa == 40) {
+			abya -= 7;
+		}
+		
+		if(abya < 0) {
+			absa = 0;
+			downpressed = false;
+		}
+		
+		if(cooltimea == 700) {
+			console.log("AB使用可能");
+		}
+		
+		//ブロック関係
+
+		for(var i = 0; i<num_of_enemies; i++){
+			if(enemy[3].x > 435 || enemy[0].x < 5) {
+				enemy[i].dx = -enemy[i].dx;
+			}
+
+			if(enemy[i].y > 200 || enemy[i].y < 10) {
+				enemy[i].dy = -enemy[i].dy;
+			}
+		}
+
+		for(var i = 0; i<num_of_bullets; i++){
+			if(bullet[i].x + bullet[i].dx > canvas.width-bullet[i].radius || bullet[i].x + bullet[i].dx < 0) {
+				bullet[i].dx = -bullet[i].dx;
+			}
+
+			if(uppressed = true && bullet[i].y < 0) {
+				bullet[i].dy = 0;
+				bullet[i].y = canvas.height-30;
+				
+				uppressed = false;
+			}
+
+			if(bullet[i].dy == 0){
+				bullet[i].x = paddle.x+15;
+			}
+		}
+
+		// キー関係
+		
+		if(rightpressed && paddle.x < canvas.width-paddle.width) {
+			paddle.x += 3;
+		} else if(leftpressed && paddle.x > 0) {
+			paddle.x -= 3;
+		}
+	}
+	
+	document.addEventListener("keydown", keyDownHandler, false);
+	document.addEventListener("keyup", keyUpHandler, false);
+
+	function keyDownHandler(e) {
+		if(e.key == "Right" || e.key == "ArrowRight") {
+			rightpressed = true;
+		}
+		else if(e.key == "Left" || e.key == "ArrowLeft") {
+			leftpressed = true;
+		}
+		if(e.key == "Up" || e.key == "ArrowUp") {
+			bullet[0].dy = -5;
+			uppressed = true;
+		}
+		if(e.key == "Down"  || e.key == "ArrowDown") {
+			downpressed = true;
+		}
+	}
+		
+	function keyUpHandler(e) {
+		if(e.key == "Right" || e.key == "ArrowRight") {
+			rightpressed = false;
+		}
+		else if(e.key == "Left" || e.key == "ArrowLeft") {
+			leftpressed = false;
+		}
+	}
+	setInterval(draw, 10);
+
+</script>
+</body>
+</HTML>
