@@ -57,7 +57,12 @@
 	var aba = 0;
 	var c = 1;
 	var timeend = 0;
-	var random = Math.floor( Math.random() * 2 );
+	var eatkxc = 0;
+	var eatkyc = 0;
+	var eatksc = 0;
+	var eatkxd = 0;
+	var atktime = 0;
+	var random = Math.floor( Math.random() * 3 );
 	
 	console.log(random)
 	
@@ -131,9 +136,6 @@
 		ctx.closePath();
 	}
 	
-	
-	
-	
 	function drawBallc() {
 		ctx.beginPath();
 		ctx.arc(abxa, abya, absa, 0, Math.PI*2);
@@ -141,6 +143,18 @@
 		ctx.fill();
 		ctx.closePath();
 	}
+	
+	function drawBalld() {
+		ctx.beginPath();
+		ctx.arc(eatkxc, eatkyc, eatksc, 0, Math.PI*2);
+		ctx.fillStyle = "#ff8866";
+		ctx.fill();
+		
+	function drawBalle() {
+		ctx.beginPath();
+		ctx.arc(eatkxd, eatkyc, eatksc, 0, Math.PI*2);
+		ctx.fillStyle = "#ff8866";
+		ctx.fill();
 	
 	function draw() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -153,6 +167,8 @@
 	drawBalla();
 	drawBallb();
 	drawBallc();
+	drawBalld();
+	drawBalle();
 	ran();
 	
 	x += dx;
@@ -184,10 +200,11 @@
 	if(eatksa == 90) {
 		eatksa = 0;
 		time = 0;
-		random = Math.floor( Math.random() * 2 );
+		random = Math.floor( Math.random() * 3 );
 		console.log("ATK処理終了");
 		console.log("残りHP");
 		console.log(hp);
+		console.log(random);
 	}
 	}
 	
@@ -206,11 +223,36 @@
 	if(eatkyb > 640) {
 	eatksb = 0;
 	time = 0;
-	console.log("ATK処理終了")
+	console.log("ATK処理終了");
 	eatkyb = 0;
-	random = Math.floor( Math.random() * 2 );
+	random = Math.floor( Math.random() * 3 );
 	console.log("残りHP");
 	console.log(hp);
+	console.log(random);
+	}
+	}
+	
+	//設置型攻撃
+	
+	if(random == 2) {
+	if(time == 500) {
+	eatkxc = paddlex-20;
+	eatkxd = paddlex+50;
+	eatkyc = canvas.height-paddleheight;
+	eatksc = 30;
+	}
+	if(eatksc == 30) {
+	atktime += 1;
+	}
+	if(atktime > 100) {
+	eatksc = 0;
+	eatkxc = 0;
+	eatkyc = 0;
+	eatkxd = 0;
+	atktime = 0;
+	time = 0;
+	random = math.floor( math.random() * 3 );
+	console.log("ATK処理終了");
 	}
 	}
 	
@@ -309,11 +351,11 @@
 	window.alert("ゲームクリア");
 	}
 	if(hp < 1) {
-	window.alert("ゲームオーバー")
+	window.alert("ゲームオーバー");
 	}
 	
 	if(timeend > 6000) {
-	window.alert("タイムアップ")
+	window.alert("タイムアップ");
 	}
 	
 	//ダメージ系
@@ -333,6 +375,7 @@
 	console.log("ATKA:DMG3");
 	}
 	}
+	
 	//アビリティー
 	
 	if(downpressed == true && cooltimea > 700) {
@@ -424,6 +467,11 @@
 	}
 	setInterval(draw, 10);
 	
+
+
+
+
+
 </script>
 </body>
 </HTML>
