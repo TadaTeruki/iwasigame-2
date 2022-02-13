@@ -10,7 +10,7 @@
 	</head>
 	<body>
 	
-	<canvas id="#canvas" width="320" height="640">
+	<canvas id="#canvas" width="480" height="640">
 	</canvas>
 	<script>
 	var canvas = document.getElementById("#canvas");
@@ -25,15 +25,15 @@
 	var paddleX = (canvas.width-paddleWidth)/2;
 	var ya = 20;
 	var dya = 1;
-	var xa = 10;
-	var xb = 90;
-	var xc = 170;
-	var xd = 250;
+	var xa = 20;
+	var xb = 150;
+	var xc = 280;
+	var xd = 420;
 	var dxx = 1;
-	var sa = 30;
-	var sb = 30;
-	var sc = 30;
-	var sd = 30;
+	var sa = 40;
+	var sb = 40;
+	var sc = 40;
+	var sd = 40;
 	var rightpressed = false;
 	var leftpressed = false;
 	var uppressed = false;
@@ -56,6 +56,7 @@
 	var cooltimea = 0;
 	var aba = 0;
 	var c = 1;
+	var timeend = 0;
 	var random = Math.floor( Math.random() * 2 );
 	
 	console.log(random)
@@ -163,6 +164,7 @@
 	xd += dxx;
 	time += 1;
 	cooltimea += c;
+	timeend += 1;
 	
 	//敵攻撃
 	//花火型攻撃
@@ -194,7 +196,7 @@
 	if(random == 1) {
 	if(time == 500) {
 	eatkxb = paddleX;
-	eatkyb = 400;
+	eatkyb = 500;
 	eatksb = 50;
 	console.log("500")
 	}
@@ -212,20 +214,65 @@
 	}
 	}
 	
-	//スコア関係
+	//スコア,ブロックの当たり判定
 	
 	if(xa < x && x < xa+sa && ya < y && y < ya+sa-10) {
 	sa = 0;
 	score += 1;
 	}
 	
-	if(xb < x && x < xb+sb && ya < y && y < ya+sb-10) {
-	sb = 0;
+ 	if(xa < abxa && abxa < xa+sa && ya < abya && abya < ya+sa-10) {
+ 	sa = 0;
+ 	score +=1;
+ 	}
+ 	
+ 	if(xa < abxa+absa && abxa+absa < xa+sa && ya < abya && abya < ya+sa-10) {
+ 	sa = 0;
+ 	score +=1;
+ 	}
+ 	
+ 	if(xa < abxa-absa && abxa-absa < xa+sa && ya < abya && abya < ya+sa-10) {
+ 	sa = 0;
+ 	score +=1;
+ 	}
+ 	
+ 	if(xb < x && x < xb+sb && ya < y && y < ya+sb-10) {
+ 	sb = 0;
+ 	score += 1;
+ 	}
+ 	
+ 	if(xb < abxa && abxa < xb+sb && ya < abya && abya < ya+sb-10) {
+ 	sb = 0;
+ 	score += 1;
+ 	}
+ 	
+ 	if(xb < abxa+absa && abxa+absa < xb+sb && ya < abya && abya < ya+sb-10) {
+ 	sb = 0;
+ 	score += 1;
+ 	}
+ 	
+ 	if(xb < abxa-absa && abxa-absa < xb+sb && ya < abya && abya < ya+sb-10) {
+ 	sb = 0;
+ 	score += 1;
+ 	}
+ 	
+ 	if(xc < x && x < xc+sc && ya < y && y < ya+sc-10) {
+ 	sc = 0;
 	score += 1;
 	}
 	
-	if(xc < x && x < xc+sc && ya < y && y < ya+sc-10) {
-	sc = 0;
+	if(xc < abxa && abxa < xc+sc && ya < abya && abya < ya+sc-10) {
+ 	sc = 0;
+	score += 1;
+	}
+	
+	if(xc < abxa+absa && abxa+absa < xc+sc && ya < abya && abya < ya+sc-10) {
+ 	sc = 0;
+	score += 1;
+	}
+	
+	if(xc < abxa-absa && abxa-absa < xc+sc && ya < abya && abya < ya+sc-10) {
+ 	sc = 0;
 	score += 1;
 	}
 	
@@ -234,11 +281,26 @@
 	score += 1;
 	}
 	
+	if(xd < abxa && abxa < xd+sd && ya < abya && abya < ya+sd-10) {
+	sd = 0;
+	score += 1;
+	}
+	
+	if(xd < abxa+absa && abxa+absa < xd+sd && ya < abya && abya < ya+sd-10) {
+	sd = 0;
+	score += 1;
+	}
+	
+	if(xd < abxa-absa && abxa-absa < xd+sd && ya < abya && abya < ya+sd-10) {
+	sd = 0;
+	score += 1;
+	}
+	
 	if(score == 4 || score == 8 || score == 12 || score == 16) {
-	sa = 25;
-	sb = 25;
-	sc = 25;
-	sd = 25;
+	sa = 40;
+	sb = 40;
+	sc = 40;
+	sd = 40;
 	}
 	
 	//ゲーム終了処理
@@ -248,6 +310,10 @@
 	}
 	if(hp < 1) {
 	window.alert("ゲームオーバー")
+	}
+	
+	if(timeend > 6000) {
+	window.alert("タイムアップ")
 	}
 	
 	//ダメージ系
@@ -297,7 +363,7 @@
 	
 	//ブロック関係
 	
-	if(xd > 275 || xa < 5) {
+	if(xd > 435 || xa < 5) {
 	dxx = -dxx;
 	}
 	
@@ -308,7 +374,6 @@
 	if(x + dx > canvas.width-ballRadius || x + dx < 0) {
 	dx = -dx;
 	}
-	
 	
 	if(uppressed = true && y < 0) {
 		dy = 0;
@@ -358,9 +423,6 @@
 	}
 	}
 	setInterval(draw, 10);
-	
-	
-	
 	
 </script>
 </body>
