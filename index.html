@@ -51,7 +51,7 @@ canvas { background:#eee; display:block; margin:0 auto; }
 	var downpressed = false;
 	var enterpressed = false;
 	var score = 0;
-	var hp = 200;
+	var hp = 1000;
 	var time = 0;
 	var eatksa = 0;
 	var eatkxa = bullet[0].x;
@@ -84,7 +84,7 @@ canvas { background:#eee; display:block; margin:0 auto; }
 	var bs = 0;
 	var dbx = 1;
 	var dby = 1;
-	var bshp = 1000;
+	var bshp = 150;
 	var batkx = 0;
 	var batky = 0;
 	var batks = 0;
@@ -335,15 +335,31 @@ canvas { background:#eee; display:block; margin:0 auto; }
 			if(score%5 == 0){
 				enemy[i].width  = 40;
 				enemy[i].height = 30;
+				sr = 40;
 			}
 		}
 		
 		//random当たり判定
-		if()
 		
-		
-		
-		
+		for(var i = 0; i<num_of_bullets; i++){
+		    if(xr < bullet[i].x && bullet[i].x < xr+sr && yr < bullet[i].y && bullet[i].y < yr+sr-10){
+		        console.log("Hit");
+		        sr = 0;
+		        score += 1;
+		    }
+		}
+		if(xr < abxa && abxa < xr+sr && yr < abya && abya <yr+sr-10) {
+		sr = 0;
+		score += 1;
+		}
+		if(xr < abxa+absa && abxa+absa < xr+sr && yr < abya && abya <yr+sr-10) {
+		sr = 0;
+		score += 1;
+		}
+		if(xr < abxa-absa && abxa-absa < xr+sr && yr < abya && abya <yr+sr-10) {
+		sr = 0;
+		score += 1;
+		}
 		
 		
 		//ブロック関係
@@ -402,10 +418,20 @@ canvas { background:#eee; display:block; margin:0 auto; }
 	}
 		
 		//ボス戦
-		if(score == 20) {
+		if(score == 10) {
 		boss = 1;
-		enemy[i].width = 0;
+		// 固定敵を消す
+		    for(var i = 0; i<num_of_enemies; i++){
+		        enemy[i].width = 0;
+		    }
+		    // ランダム敵を消す
+ 		   sr = 0;
+ 		   bx = 240;
+ 		   by = 150;
+ 		   bs = 50;
+ 		   score = 30;
 		}
+		
 		
 		if(boss == 1) {
 		
@@ -516,8 +542,10 @@ canvas { background:#eee; display:block; margin:0 auto; }
 		
 		//bossHP
 		
-		if(bx < bullet[i].x  && bullet[i].x  < bx+bs && by < bullet[i].y && bullet[i].y < by+bs-10) {
-		bshp -= 1;
+		for(var i = 0; i<num_of_bullets; i++){
+ 		   if(bx < bullet[i].x  && bullet[i].x  < bx+bs && by < bullet[i].y && bullet[i].y < by+bs-10) {
+		        bshp -= 1;
+		    }
 		}
 		if(bx < abxa && abxa < bx+bs && by < abya && abya < by+bs-10) {
 		bshp -= 2;
@@ -535,10 +563,10 @@ canvas { background:#eee; display:block; margin:0 auto; }
 		
 		//boss移動
 		
-		if(bx < 5 || bx > 595) {
+		if(bx < 5 || bx > 425) {
 		dbx = -dbx;
 		}
-		if(by > 5 || by <200) {
+		if(by < 5 || by > 200) {
 		dby = -dby;
 		}
 		}
