@@ -49,6 +49,7 @@ canvas { background:#eee; display:block; margin:0 auto; }
 	var leftpressed = false;
 	var uppressed = false;
 	var downpressed = false;
+	var enterpressed = false;
 	var score = 0;
 	var hp = 200;
 	var time = 0;
@@ -75,8 +76,18 @@ canvas { background:#eee; display:block; margin:0 auto; }
 	var eatkc = 1;
 	var atktime = 0;
 	var ulttime = 0;
-	var ult = 0;
+	var ult = 4000;
 	var down = 0;
+	var boss = 0;
+	var bx = 0;
+	var by = 0;
+	var bs = 0;
+	var dbx = 1;
+	var dby = 1;
+	var bshp = 1000;
+	var batkx = 0;
+	var batky = 0;
+	var batks = 0;
 	var random = Math.floor( Math.random() * 3 );
 	
 	console.log(random)
@@ -117,7 +128,7 @@ canvas { background:#eee; display:block; margin:0 auto; }
 	function drawBalla() {
 		ctx.beginPath();
 		ctx.arc(eatkxa, eatkya, eatksa, 0, Math.PI*2);
-		ctx.fillStyle = "#ff8866";
+		ctx.fillStyle = "red";
 		ctx.fill();
 		ctx.closePath();
 	}
@@ -125,7 +136,7 @@ canvas { background:#eee; display:block; margin:0 auto; }
 	function drawBallb() {
 		ctx.beginPath();
 		ctx.arc(eatkxb, eatkyb, eatksb, 0, Math.PI*2);
-		ctx.fillStyle = "#ff8866";
+		ctx.fillStyle = "blue";
 		ctx.fill();
 		ctx.closePath();
 	}
@@ -141,16 +152,31 @@ canvas { background:#eee; display:block; margin:0 auto; }
 	function drawBalld() {
 		ctx.beginPath();
 		ctx.arc(eatkxc, eatkyc, eatksc, 0, Math.PI*2);
-		ctx.fillStyle = "#ff8866";
+		ctx.fillStyle = "green";
 		ctx.fill();
 	}
 		
 	function drawBalle() {
 		ctx.beginPath();
 		ctx.arc(eatkxd, eatkyc, eatksc, 0, Math.PI*2);
-		ctx.fillStyle = "#ff8866";
+		ctx.fillStyle = "green";
 		ctx.fill();
 	}
+	
+	function drawBoss() {
+		ctx.beginPath();
+		ctx.rect( bx, by, bs, bs-10);
+		ctx.fillstyle = "red";
+		ctx.fill();
+	}
+	
+	function drawBallf() {
+		ctx.beginPath();
+		ctx.arc(batkx, batky, batks, 0, Math.PI*2);
+		ctx.fillStyle = "purple";
+		ctx.fill();
+	}
+	
 	
 	function draw() {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -163,24 +189,30 @@ canvas { background:#eee; display:block; margin:0 auto; }
 		drawBalld();
 		drawBalle();
 		ran();
-
-
+		drawBoss();
+		drawBallf();
+		
+		time += 1;
+		cooltimea += c;
+		timeend += 1;
+		ult += 1;
+		
 		for(var i = 0; i<num_of_bullets; i++){
 			bullet[i].x += bullet[i].dx;
 			bullet[i].y += bullet[i].dy;
 		}
-
+		
+	if(boss == 0) {
+		if(ulttime < 1 || ulttime > 1000) {
 		for(var i = 0; i<num_of_enemies; i++){
 			enemy[i].x += enemy[i].dx;
 			enemy[i].y += enemy[i].dy;
 		}
-
-		time += 1;
-		cooltimea += c;
-		timeend += 1;
+		}
+		
 		
 		//敵攻撃
-		//花火型攻撃
+		//火攻撃
 		
 		if(random == 0) {
 			if(time == 500) {
@@ -205,7 +237,7 @@ canvas { background:#eee; display:block; margin:0 auto; }
 			}
 		}
 		
-		//爆弾型攻撃
+		//氷攻撃
 		
 		if(random == 1) {
 			if(time == 500) {
@@ -229,7 +261,7 @@ canvas { background:#eee; display:block; margin:0 auto; }
 			}
 		}
 		
-		//設置型攻撃
+		//電攻撃
 		
 		if(random == 2) {
 			if(time == 500) {
@@ -288,17 +320,169 @@ canvas { background:#eee; display:block; margin:0 auto; }
 			}
 		}
 		
+		//ブロック関係
+
+		for(var i = 0; i<num_of_enemies; i++){
+			if(enemy[3].x > 435 || enemy[0].x < 5) {
+				enemy[i].dx = -enemy[i].dx;
+			}
+
+			if(enemy[i].y > 200 || enemy[i].y < 10) {
+				enemy[i].dy = -enemy[i].dy;
+			}
+		}
+		
+	}
+		
+		//ボス戦
+		if(score == 20) {
+		boss = 1;
+		enemy[i].width = 0;
+		}
+		
+		if(boss == 1) {
+		
+			bx += dbx;
+			by += dby;
+			
+			//敵攻撃
+			//火攻撃
+		
+			if(random == 0) {
+				if(time == 500) {
+				eatkxa = paddle.x;
+				eatkya = canvas.height-paddle.height - 30;
+				eatksa = 10;
+				console.log("300")
+				}
+			
+				if(eatksa > 0) {
+				eatksa += 1;
+				}
+			
+				if(eatksa == 90) {
+				eatksa = 0;
+				time = 0;
+				random = Math.floor( Math.random() * 4 );
+				console.log("ATK処理終了");
+				console.log("残りHP");
+				console.log(hp);
+				console.log(random);
+				}
+			}
+		
+		//氷攻撃
+		
+			if(random == 1) {
+				if(time == 500) {
+				eatkxb = paddle.x;
+				eatkyb = 500;
+				eatksb = 50;
+				console.log("500")
+				}
+				if(eatksb == 50) {
+				eatkyb += 2;
+				}
+				if(eatkyb > 640) {
+				eatksb = 0;
+				time = 0;
+				console.log("ATK処理終了");
+				eatkyb = 0;
+				random = Math.floor( Math.random() * 4 );
+				console.log("残りHP");
+				console.log(hp);
+				console.log(random);
+				}
+			}
+		
+		//電攻撃
+		
+			if(random == 2) {
+				if(time == 500) {
+				eatkxc = paddle.x-70;
+				eatkxd = paddle.x+100;
+				eatkyc = canvas.height-paddle.height;
+				eatksc = 30;
+				}
+				if(eatksc == 30) {
+				atktime += 1;
+				}
+				if(atktime > 350) {
+				eatksc = 0;
+				eatkxc = 0;
+				eatkyc = 0;
+				eatkxd = 0;
+				atktime = 0;
+				time = 0;
+				down = 0;
+				random = Math.floor( Math.random() * 4 );
+				console.log("ATK処理終了");
+				console.log("残りHP");
+				console.log(hp);
+				console.log(random);
+				}
+			}
+			
+		//闇攻撃
+		
+		if(random == 3) {
+		if(time == 450) {
+		batkx = paddle.x;
+		batky = 400;
+		batks = 70;
+		}
+		if(batks == 70) {
+		batky += 1;
+		}
+		if(batky > 640) {
+		batkx = 0;
+		batky = 0;
+		batks = 0;
+		time = 0;
+		random = Math.floor( Math.random() * 4 );
+		console.log("ATK処理終了");
+		console.log("残りHP");
+		console.log(hp);
+		console.log(random);
+		}
+		}
+		
+		//bossHP
+		
+		if(bx < bullet[i].x  && bullet[i].x  < bx+bs && by < bullet[i].y && bullet[i].y < by+bs-10) {
+		bshp -= 1;
+		}
+		if(bx < abxa && abxa < bx+bs && by < abya && abya < by+bs-10) {
+		bshp -= 2;
+		}
+		if(bx < abxa-absa && abxa-absa < bx+bs && by < abya && abya < by+bs-10) {
+		bshp -= 2;
+		}
+		if(bx < abxa+absa && abxa+absa < bx+bs && by < abya && abya < by+bs-10) {
+		bshp -= 2;
+		}
+		
+		if(bshp < 1) {
+		bs = 0;
+		}
+		
+		//boss移動
+		
+		if(bx < 5 || bx > 595) {
+		dbx = -dbx;
+		}
+		if(by > 5 || by <200) {
+		dby = -dby;
+		}
+		}
+		
 		//ゲーム終了処理
 		
-		if(score == 20) {
-			window.alert("ゲームクリア");
-		}
 		if(hp < 1) {
 			window.alert("ゲームオーバー");
 		}
-		
-		if(timeend > 6000) {
-			window.alert("タイムアップ");
+		if(bshp < 1) {
+			window.alert("ゲームクリア");
 		}
 		
 		//ダメージ系
@@ -335,6 +519,13 @@ canvas { background:#eee; display:block; margin:0 auto; }
 			}
 		}
 		
+		if(batky > 620) {
+			if(batkx-batks < paddle.x+15 && paddle.x+15 < batkx+batks) {
+			hp = 0;
+			console.log("ATKD:DMG99999")
+			}
+		}
+		
 		//アビリティ
 		
 		if(downpressed == true && cooltimea > 700) {
@@ -362,19 +553,29 @@ canvas { background:#eee; display:block; margin:0 auto; }
 		if(cooltimea == 700) {
 			console.log("アビリティ使用可能");
 		}
+		//ULT
 		
-		//ブロック関係
-
-		for(var i = 0; i<num_of_enemies; i++){
-			if(enemy[3].x > 435 || enemy[0].x < 5) {
-				enemy[i].dx = -enemy[i].dx;
-			}
-
-			if(enemy[i].y > 200 || enemy[i].y < 10) {
-				enemy[i].dy = -enemy[i].dy;
-			}
+		if(enterpressed == true) {
+		if(ulttime < 1000) {
+		ulttime += 1;
+		c = 2;
 		}
-
+		if(ulttime == 1000) {
+		ulttime = 0;
+		c = 1;
+		enterpressed = false;
+		ultcooltime = 0;
+		ult = 0;
+		console.log("ULT終了");
+		}
+		}
+		
+		if(score == 16 && ult > 4000) {
+		console.log("ULT発動可能");
+		}
+		
+		//paddle
+		
 		for(var i = 0; i<num_of_bullets; i++){
 			if(bullet[i].x + bullet[i].dx > canvas.width-bullet[i].radius || bullet[i].x + bullet[i].dx < 0) {
 				bullet[i].dx = -bullet[i].dx;
@@ -391,7 +592,8 @@ canvas { background:#eee; display:block; margin:0 auto; }
 				bullet[i].x = paddle.x+15;
 			}
 		}
-
+		
+		
 		// キー関係
 		
 		if(rightpressed && paddle.x < canvas.width-paddle.width) {
@@ -417,6 +619,9 @@ canvas { background:#eee; display:block; margin:0 auto; }
 		}
 		if(e.key == "Down"  || e.key == "ArrowDown") {
 			downpressed = true;
+		}
+		if(e.key == "Enter" && score > 16 && ult > 4000) {
+			enterpressed = true;
 		}
 	}
 		
