@@ -88,6 +88,14 @@ canvas { background:#eee; display:block; margin:0 auto; }
 	var batkx = 0;
 	var batky = 0;
 	var batks = 0;
+	var xr = 0;
+	var yr = 0;
+	var sr = 40;
+	var setr = 1;
+	var gol = 0;
+	var gor = 0;
+	var randoma = Math.floor( Math.random() * 2 );
+	var randomb = Math.floor( Math.random() * 2 );
 	var random = Math.floor( Math.random() * 3 );
 	
 	console.log(random)
@@ -177,6 +185,15 @@ canvas { background:#eee; display:block; margin:0 auto; }
 		ctx.fill();
 	}
 	
+	function drawblockr() {
+		ctx.beginPath();
+		ctx.rect( xr, yr, sr, sr-10);
+		ctx.fillstyle = "red";
+		ctx.fill();
+	}
+	
+	
+	
 	
 	function draw() {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -191,6 +208,7 @@ canvas { background:#eee; display:block; margin:0 auto; }
 		ran();
 		drawBoss();
 		drawBallf();
+		drawblockr();
 		
 		time += 1;
 		cooltimea += c;
@@ -314,11 +332,19 @@ canvas { background:#eee; display:block; margin:0 auto; }
 		}
 
 		for(var i = 0; i<num_of_enemies; i++){
-			if(score%4 == 0){
+			if(score%5 == 0){
 				enemy[i].width  = 40;
 				enemy[i].height = 30;
 			}
 		}
+		
+		//random当たり判定
+		if()
+		
+		
+		
+		
+		
 		
 		//ブロック関係
 
@@ -330,6 +356,47 @@ canvas { background:#eee; display:block; margin:0 auto; }
 			if(enemy[i].y > 200 || enemy[i].y < 10) {
 				enemy[i].dy = -enemy[i].dy;
 			}
+		}
+		
+		if(setr == 1) {
+		randoma = Math.floor( Math.random() * 2 + 1);
+		randomb = Math.floor( Math.random() * 2 + 1);
+		setr = 0;
+		}
+		
+		if(randoma == 1) {
+		xr = 430
+		randoma = 0;
+		gol = 1;
+		}
+		if(randoma == 2) {
+		xr = 10;
+		randoma = 0;
+		gor = 1;
+		}
+		if(randomb == 1) {
+		yr = 200;
+		randomb = 0;
+		}
+		if(randomb == 2) {
+		yr = 300;
+		randomb = 0;
+		}
+		if(gol == 1) {
+		xr -= 3;
+		}
+		if(gor == 1) {
+		xr += 3;
+		}
+		if(xr < 0) {
+		setr = 1;
+		gol = 0;
+		xr = 0;
+		}
+		if(xr > 440) {
+		setr = 1;
+		gor = 0;
+		xr = 0;
 		}
 		
 	}
