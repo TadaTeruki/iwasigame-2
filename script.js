@@ -480,20 +480,36 @@ function draw() {
     //paddle
     
     for(var i = 0; i<num_of_bullets; i++){
+        
         if(bullet[i].x + bullet[i].dx > canvas.width-bullet[i].radius || bullet[i].x + bullet[i].dx < 0) {
             bullet[i].dx = -bullet[i].dx;
         }
 
-        if(uppressed = true && bullet[i].y < 0) {
+        if(bullet[i].y < 0) {
             bullet[i].dy = 0;
             bullet[i].y = canvas.height-30;
+/*
+            bullet_ad ++;
+            if(bullet_ad >= num_of_bullets){
+                bullet_ad = 0;
+            }
+*/
             
-            uppressed = false;
+            //uppressed = false;
         }
 
         if(bullet[i].dy == 0){
             bullet[i].x = paddle.x+15;
         }
+    }
+
+    if(uppressed == true){
+        bullet[bullet_ad].dy = -5;
+        bullet_ad ++;
+        if(bullet_ad >= num_of_bullets){
+            bullet_ad = 0;
+        }
+        uppressed = false;
     }
     
     
@@ -516,7 +532,7 @@ function keyDownHandler(e) {
         leftpressed = true;
     }
     if(e.key == "Up" || e.key == "ArrowUp") {
-        bullet[0].dy = -5;
+        
         uppressed = true;
     }
     if(e.key == "Down"  || e.key == "ArrowDown") {

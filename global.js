@@ -1,7 +1,7 @@
 let num_of_enemies = 5; // 敵の数
 var enemy = new Array(num_of_enemies);
 
-let num_of_bullets = 1; // 弾の数
+let num_of_bullets = 10; // 弾の数
 var bullet = new Array(num_of_bullets);
 
 let num_of_magics = 5; // 相手の弾の数
@@ -13,6 +13,7 @@ var leftpressed = false;
 var uppressed = false;
 var downpressed = false;
 var enterpressed = false;
+var bullet_ad = 0;
 var score = 0;
 var hp = 1000;
 var magictime = 0;
