@@ -50,7 +50,7 @@ function setTitleSceneLabel(){
         textBaseLine : "bottom",
         textFont : "monospace",
 
-        text : ["Push Return or Enter", "to start"],
+        text : ["Press Return/Enter", "to start"],
         textSizeHS : [0.05, 0.04],
         textLineHeightVS : [0.02],
         textWeight : ["", ""],
@@ -65,7 +65,7 @@ function setTitleSceneLabel(){
 function setResultSceneLabel(){
     //label_box = {}
     label_box["yBackground"] = {
-        xHS : 0.0,
+        xHS : -1.0,
         yVS : 0.0,
         widthHS : 1.0,
         heightVS : 1.0,
@@ -83,7 +83,7 @@ function setResultSceneLabel(){
     }
 
     label_box["zBackground"] = {
-        xHS : 0.0,
+        xHS : -1.0,
         yVS : 0.15,
         widthHS : 1.0,
         heightVS : 0.7,
@@ -101,7 +101,7 @@ function setResultSceneLabel(){
     }
 
     label_box["Result"] = {
-        xHS : 0.1,
+        xHS : -1.0,
         yVS : 0.28,
         widthHS : 0.0,
         heightVS : 0.0,
@@ -122,7 +122,7 @@ function setResultSceneLabel(){
     }    
 
     label_box["Button"] = {
-        xHS : 0.54,
+        xHS : -1.0,
         yVS : 0.67,
         widthHS : 0.4,
         heightVS : 0.15,
@@ -131,7 +131,7 @@ function setResultSceneLabel(){
         textBaseLine : "bottom",
         textFont : "monospace",
 
-        text : ["Push Return or Enter", "to restart"],
+        text : ["Press Return/Enter", "to restart"],
         textSizeHS : [0.05, 0.04],
         textLineHeightVS : [0.02],
         textWeight : ["", ""],
@@ -194,7 +194,7 @@ function setGameSceneLabel(){
         xHS : 0.0,
         yVS : 0.99,
         widthHS : 1.0,
-        heightVS : 0.008,
+        heightVS : 0.01,
         marginHS : 0.0,
         textAlign : "left",
         textBaseLine : "bottom",
@@ -214,7 +214,7 @@ function setGameSceneLabel(){
         xHS : 0.0,
         yVS : 0.99,
         widthHS : 1.0,
-        heightVS : 0.008,
+        heightVS : 0.01,
         marginHS : 0.0,
         textAlign : "left",
         textBaseLine : "bottom",
@@ -235,7 +235,7 @@ function setGameSceneLabel(){
         xHS : 0.0,
         yVS : 0.01,
         widthHS : 1.0,
-        heightVS : 0.008,
+        heightVS : 0.01,
         marginHS : 0.0,
         textAlign : "left",
         textBaseLine : "top",
@@ -255,7 +255,7 @@ function setGameSceneLabel(){
         xHS : 0.0,
         yVS : 0.01,
         widthHS : 1.0,
-        heightVS : 0.008,
+        heightVS : 0.01,
         marginHS : 0.0,
         textAlign : "left",
         textBaseLine : "top",
@@ -344,10 +344,10 @@ function setGameSceneLabel(){
         textBaseLine : "bottom",
         textFont : "monospace",
         
-        text : [" MP"],
-        textSizeHS : [0.037],
-        textLineHeightVS : [],
-        textWeight : ["bold"],
+        text : [" MP", " [Key UP] : Attack",""],
+        textSizeHS : [0.033, 0.025, 0.0],
+        textLineHeightVS : [0.01, 0.01],
+        textWeight : ["bold", "bold", ""],
 
         background : true,
         backFillStyle : "#cc4433aa",
@@ -385,16 +385,39 @@ function setGameSceneLabel(){
         textBaseLine : "bottom",
         textFont : "monospace",
         
-        text : [" ULT"],
-        textSizeHS : [0.037],
-        textLineHeightVS : [],
-        textWeight : ["bold"],
+
+        text : [" ULT", " [Return/Enter] : ","     Ultimate skill", ""],
+        textSizeHS : [0.033, 0.025, 0.025, 0.0],
+        textLineHeightVS : [0.01, 0.01, 0.01],
+        textWeight : ["bold", "bold", "bold", ""],
+        
 
         background : true,
         backFillStyle : "#cc8811aa",
         textFillStyle : "#ffffff",
         shadowBlurHS : 0.0,
     }
+/*
+    label_box["Damage"] = {
+        xHS : 0.0,
+        yVS : 0.0,
+        widthHS : 0.0,
+        heightVS : 0.0,
+        marginHS : 0.0,
+        textAlign : "left",
+        textBaseLine : "bottom",
+        textFont : "monospace",
+        
+        text : ["0"],
+        textSizeHS : [0.037],
+        textLineHeightVS : [],
+        textWeight : ["bold"],
+
+        background : false,
+        textFillStyle : "#ffffff",
+        shadowBlurHS : 0.0,
+    }
+    */
 
 }
 
@@ -409,9 +432,26 @@ function setAnnounce(str, substr, fadetime = -1, fadeinterval = -1){
     label_box["Announce"].fadeinterval = fadeinterval >= 0 ? fadeinterval:fadetime;
 }
 
+function updateResultSceneLabel(){
+    if(label_box["yBackground"] == undefined) return;
+    label_box["yBackground"].xHS = label_box["yBackground"].xHS*0.3;
+    label_box["zBackground"].xHS = label_box["zBackground"].xHS*0.5;
+    label_box["Result"].xHS = (label_box["Result"].xHS-0.1)*0.5+0.1;
+    label_box["Button"].xHS = (label_box["Button"].xHS-0.54)*0.7+0.54;
+}
+
 function updateGameSceneLabel(){
 
+    var blink = 8;
+    var is_darker = Math.floor((timeend%(blink*2))/blink) == 0;
+/*
+    label_box["Damage"].xHS = (paddle.x+paddle.width)/game_screen.width;
+    label_box["Damage"].yVS = paddle.y/game_screen.height;
+*/
+
     label_box["Abilityrest"].widthHS = label_box["Abilitybar"].widthHS*Math.max(0.0, game.ap/game.max_ap);
+    if(game.ap == game.max_ap || game.ult_is_available) label_box["Abilityrest"].backFillStyle = is_darker ? "#3366eeaa":"#4477ffaa";
+
     label_box["HPrest"].widthHS      = label_box["HPbar"].widthHS*Math.max(0.0, game.hp/game.max_hp);
     label_box["MPrest"].widthHS      = label_box["MPbar"].widthHS*Math.max(0.0, game.mp/game.max_mp);
     var e_rest = Math.max(0.0, boss_flag == 1 ? (boss.hp/boss.max_hp):((max_normal_score-score)/max_normal_score))
@@ -419,13 +459,21 @@ function updateGameSceneLabel(){
     label_box["EnemyHPrest"].widthHS = label_box["EnemyHPbar"].widthHS*e_rest;
 
     var ult_rest = 0;
+    
+
     if(game.ult_is_available){
         ult_rest = (game.ult_available_time-game.ult)/game.ult_available_time;
+        label_box["ULTrest"].backFillStyle = is_darker ? "#ccaa11aa":"#eecc11aa";
     } else {
         ult_rest = (game.ult-game.ult_available_time)/(game.ult_max-game.ult_available_time);
     }
 
-    ult_rest = Math.max(0.0,ult_rest*Math.min(1.0, score/game.ult_score));
+    ult_rest = Math.max(0.0, ult_rest*Math.min(1.0, score/game.ult_score));
+
+    if(game.ult_is_available == false && ult_rest == 1.0){
+        label_box["ULTrest"].backFillStyle = is_darker ? "#cc8811aa":"#ddaa11aa";
+    }
+
 
     label_box["ULTrest"].widthHS = label_box["ULTbar"].widthHS*ult_rest;
 

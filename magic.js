@@ -85,7 +85,7 @@ function setNightmareMagic(x,y){
     magic[0].mltpStopY = (paddle.y-y)/3+y;
     magic[0].mltp      = 0.03;
     magic[0].dmltp     = 0.03;
-    magic[0].damage    = 1000;
+    magic[0].damage    = 8;
 
 }
 

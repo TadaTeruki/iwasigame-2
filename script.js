@@ -26,6 +26,9 @@ function loop(){
             resultLoop();
             setTimeout(loop, 50);
     }
+
+    recover_called = false;
+    meteo_called = false;
 }
 
 function startGameToPressEnter(){
@@ -40,15 +43,17 @@ function startGameToPressEnter(){
 function resultLoop() {
     drawLabel();
     startGameToPressEnter();
+    updateResultSceneLabel();
+
 }
 
 function titleLoop() {
     drawLabel();
     startGameToPressEnter();
-
 }
 
 function gameLoop() {    
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawLabel();
     drawBullets();
@@ -59,7 +64,8 @@ function gameLoop() {
     processMagics();
     drawAbility();
     updateGameSceneLabel();
-  
+    drawPtcGroup();
+    processPtcGroup();
     //paddle
     
     for(var i = 0; i<num_of_bullets; i++){
@@ -89,7 +95,7 @@ function gameLoop() {
             }
             uppressed = false;
         } else {
-            setAnnounce("Recover your MP","", 100);
+            setAnnounce("MP shortage","Press [1] key to Use 'MP recovery'", 100);
         }
 
     }
@@ -115,7 +121,11 @@ function gameLoop() {
     //ゲーム終了処理
     
     if(game.hp < 1) {
-        setAnnounce("Game Over", "You lose");
+        if(gameover == false){
+            setAnnounce("Game Over", "You lose");
+            registerPtcGroup(paddle.x+paddle.width/2, paddle.y+paddle.height/2, "destroy_player");
+        }
+        
         paddle.x += paddle.width*(1-0.9)/2;
         paddle.width *= 0.9;
         for(var i = 0; i<num_of_bullets; i++){
@@ -199,6 +209,9 @@ function gameLoop() {
            magic[i].y + magic[i].radius > paddle.y+paddle.height/2 &&
            magic[i].y - magic[i].radius < paddle.y+paddle.height/2){
             game.hp -= magic[i].damage;
+            if(gameover == false){
+                registerPtcGroup(paddle.x+paddle.width/2, paddle.y+paddle.height/2, "damaging");
+            }
             game.hp += def;
         }
     }
@@ -214,11 +227,17 @@ function gameLoop() {
             aba = 1;
             game.ap = 0;
             setAnnounce("- Meteo Fall -", "", 100);
+            meteo_called == false;
         }
         if(recover_called == true) {
             game.mp = game.max_mp;
             game.ap = 0;
-            setAnnounce("- MP Recovery -", "", 100);
+            setAnnounce("- MP Recovery -", "MP is now full", 100);
+            recover_called == false;
+        }
+    } else {
+        if(meteo_called == true || recover_called == true) {
+            setAnnounce("Ability Point is not Full", "Wait", 100);
         }
     }
 
@@ -235,18 +254,28 @@ function gameLoop() {
         absa = 0;
         meteo_called = false;
     }
-    
-    
+
     game.ult++;
     if(game.ult > game.ult_max){
         game.ult = game.ult_max;
     }
     
-    if(enterpressed == true && score >= game.ult_score && game.ult == game.ult_max) {
-        enterpressed = false;
-        game.ult_is_available = true;
-        game.ult = 0;
-        setAnnounce("- ULT start -", "", 100);
+    if(enterpressed == true){
+        if(score >= game.ult_score && game.ult == game.ult_max) {
+            enterpressed = false;
+            game.ult_is_available = true;
+            game.ult = 0;
+            if(boss_flag == 0){
+                setAnnounce("- ULT start -", "Enemy Lock & Ability Point boost x2", 100);
+            } else {
+                setAnnounce("- ULT start -", "Ability Point boost x2", 100);
+            }
+            
+        } else if(score < game.ult_score){
+            setAnnounce("ULT Point is not Full", "Destroy enemies more", 100);
+        } else {
+            setAnnounce("ULT Point is not Full", "Wait", 100);
+        }
     }
 
     if(game.ult_is_available == true && game.ult > game.ult_available_time){
@@ -254,6 +283,7 @@ function gameLoop() {
         setAnnounce("- ULT end -", "", 100);
     }
     
+
   
 }
 

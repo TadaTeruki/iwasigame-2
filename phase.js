@@ -56,26 +56,29 @@ function mainPhase(){
 
     //スコア,ブロックの当たり判定
     for(var i = 0; i<num_of_enemies; i++){
+        var ab_hit = (enemy[i].x < abxa && abxa < enemy[i].x+enemy[i].width && enemy[i].y < abya && abya < enemy[i].y+enemy[i].height) ||
+            (enemy[i].x < abxa+absa && abxa+absa < enemy[i].x+enemy[i].width && enemy[i].y < abya && abya < enemy[i].y+enemy[i].height) || 
+            (enemy[i].x < abxa-absa && abxa-absa < enemy[i].x+enemy[i].width && enemy[i].y < abya && abya < enemy[i].y+enemy[i].height);
+
         for(var j = 0; j<num_of_bullets; j++){
             var bscore = score;
-            if(enemy[i].x < bullet[j].x && bullet[j].x < enemy[i].x+enemy[i].width && enemy[i].y < bullet[j].y && bullet[j].y < enemy[i].y+enemy[i].height) {
-                enemy[i].width = 0;
-                score += 1;
-            }
-            if(enemy[i].x < abxa && abxa < enemy[i].x+enemy[i].width && enemy[i].y < abya && abya < enemy[i].y+enemy[i].height) {
-                enemy[i].width = 0;
-                score += 1;
-            }
+            var bullet_hit = (enemy[i].x < bullet[j].x && bullet[j].x < enemy[i].x+enemy[i].width && enemy[i].y < bullet[j].y && bullet[j].y < enemy[i].y+enemy[i].height);
             
-            if(enemy[i].x < abxa+absa && abxa+absa < enemy[i].x+enemy[i].width && enemy[i].y < abya && abya < enemy[i].y+enemy[i].height) {
+            if (enemy[i].width != 0 && (bullet_hit || ab_hit)){
                 enemy[i].width = 0;
                 score += 1;
+                
+                if(bullet_hit){
+                    registerPtcGroup(bullet[j].x, bullet[j].y, "destroy_enemy");
+                    bullet[j].y = -100;
+                }
+                if(ab_hit){
+                    registerPtcGroup(abxa, abya, "meteo_attack");
+                }
+                
             }
-            
-            if(enemy[i].x < abxa-absa && abxa-absa < enemy[i].x+enemy[i].width && enemy[i].y < abya && abya < enemy[i].y+enemy[i].height) {
-                enemy[i].width = 0;
-                score += 1;
-            }
+
+
 
     
             if(score != bscore && score%5 == 0){
@@ -148,20 +151,21 @@ function bossPhase(){
 
     for(var i = 0; i<num_of_bullets; i++){
         if(boss.x < bullet[i].x  && bullet[i].x  < boss.x+boss.width && boss.y < bullet[i].y && bullet[i].y < boss.y+boss.height) {
-            boss.hp -= 1;
+            boss.hp -= 3;
+            registerPtcGroup(bullet[i].x, bullet[i].y, "destroy_enemy");
+            bullet[i].y = -100;
         }
     }
-    if(boss.x < abxa && abxa < boss.x+boss.width && boss.y < abya && abya < boss.y+boss.height) {
-        boss.hp -= 2;
-    }
-    if(boss.x < abxa-absa && abxa-absa < boss.x+boss.width && boss.y < abya && abya < boss.y+boss.height) {
-        boss.hp -= 2;
-    }
-    if(boss.x < abxa+absa && abxa+absa < boss.x+boss.width  && boss.y < abya && abya < boss.y+boss.height) {
-        boss.hp -= 2;
+
+    if((boss.x < abxa && abxa < boss.x+boss.width && boss.y < abya && abya < boss.y+boss.height) ||
+      (boss.x < abxa-absa && abxa-absa < boss.x+boss.width && boss.y < abya && abya < boss.y+boss.height) ||
+      (boss.x < abxa+absa && abxa+absa < boss.x+boss.width  && boss.y < abya && abya < boss.y+boss.height)) {
+        registerPtcGroup(abxa, abya, "meteo_attack");
+        boss.hp -= 8;
     }
     
-    if(boss.hp < 1) {
+    if(boss.hp < 1 && boss.width != 0) {
+        registerPtcGroup(boss.x+boss.width/2, boss.y+boss.height/2, "destroy_boss");
         boss.width = 0;
     }
     

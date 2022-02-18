@@ -48,6 +48,7 @@ function initGame(){
     game.ap = 0;
     game.dap = 1;
     game.boost_dap = 2;
+    
 
     bullet_speed = -5;
 

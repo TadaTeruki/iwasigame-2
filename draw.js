@@ -53,8 +53,6 @@ function drawAbility() {
     ctx.closePath();
 }
 
-
-
 function drawLabel() {
 
     for(key in label_box){
