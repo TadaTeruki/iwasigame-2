@@ -16,7 +16,7 @@ function loop(){
     switch(scene){
         case "title":
             titleLoop();
-            setTimeout(loop, 50); 
+            setTimeout(loop, 20); 
             break;
         case "game":
             gameLoop();
@@ -24,7 +24,7 @@ function loop(){
             break;
         case "result":
             resultLoop();
-            setTimeout(loop, 50);
+            setTimeout(loop, 10);
     }
 
     recover_called = false;
@@ -145,7 +145,7 @@ function gameLoop() {
 
     }
     if(boss.hp < 1) {
-        setAnnounce("Congulatuations!", "You defeat all enemies");
+        setAnnounce("Congratulations!", "You defeat all enemies");
         if(gameclear == false){
             wait = 300;
             gameclear = true;
@@ -209,11 +209,22 @@ function gameLoop() {
            magic[i].y + magic[i].radius > paddle.y+paddle.height/2 &&
            magic[i].y - magic[i].radius < paddle.y+paddle.height/2){
             game.hp -= magic[i].damage;
+            if(magic[i].type == "stun"){
+                down = 2.0;
+            }
             if(gameover == false){
-                registerPtcGroup(paddle.x+paddle.width/2, paddle.y+paddle.height/2, "damaging");
+                
+                registerPtcGroup(paddle.x+paddle.width/2, paddle.y+paddle.height/2, 
+                    magic[i].type == "ice" ? "damaging_ice" : 
+                    (magic[i].type == "fire" ? "damaging_fire" : 
+                    (magic[i].type == "nightmare" ? "damaging_nightmare" : "damaging")));
             }
             game.hp += def;
         }
+    }
+
+    if(down != 0){
+        registerPtcGroup(paddle.x+paddle.width/2, paddle.y+paddle.height/2, "stun");
     }
     
     //アビリティ

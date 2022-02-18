@@ -4,6 +4,7 @@ function intRandomByRange(i){
 
 function initMagic(){
     for(var i = 0; i<num_of_magics; i++){
+        magic[i].type = "";
         magic[i].x = 0;
         magic[i].y = 0;
         magic[i].dx = 0;
@@ -48,6 +49,7 @@ function processMagics(){
 
         if(magic[i].y-magic[i].radius > canvas.height || magic[i].radius < 0.0){
             magictime = 0;
+            down = 0;
             initMagic();
         }
     }
@@ -55,7 +57,7 @@ function processMagics(){
 
 function setIceMagic(x,y){
     initMagic();
-    
+    magic[0].type      = "ice";
     magic[0].radius    = 0;
     magic[0].dradius   = 1.5;
     magic[0].ddradius  = -0.02;
@@ -67,13 +69,13 @@ function setIceMagic(x,y){
     magic[0].mltpStopY = (paddle.y-y)/3+y;
     magic[0].mltp      = 0.1;
     magic[0].dmltp     = 0.1;
-    magic[0].damage    = 5;
+    magic[0].damage    = 8;
 
 }
 
 function setNightmareMagic(x,y){
     initMagic();
-    
+    magic[0].type      = "nightmare";
     magic[0].radius    = 0;
     magic[0].dradius   = 1.0;
     magic[0].ddradius  = -0.005;
@@ -85,7 +87,7 @@ function setNightmareMagic(x,y){
     magic[0].mltpStopY = (paddle.y-y)/3+y;
     magic[0].mltp      = 0.03;
     magic[0].dmltp     = 0.03;
-    magic[0].damage    = 8;
+    magic[0].damage    = 12;
 
 }
 
@@ -93,7 +95,7 @@ function setNightmareMagic(x,y){
 
 function setFireMagic(x,y){
     initMagic();
-    
+    magic[0].type      = "fire";
     magic[0].radius    = 5;
     magic[0].dradius   = 1.4;
     magic[0].ddradius  = -0.0125;
@@ -118,6 +120,7 @@ function setStunMagic(x,y){
     var px = paddle.x+paddle.width/2;
     var py = paddle.y+paddle.height/2;
     for(var i = 0; i<2; i++){
+        magic[i].type      = "stun";
         magic[i].radius    = 5;
         magic[i].dradius   = 0.22;
         magic[i].ddradius  = -0.001;

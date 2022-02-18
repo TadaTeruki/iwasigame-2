@@ -9,6 +9,7 @@ function registerPtcGroup(x,y,type){
     ptcgroup.y = y;
     
     switch(type){
+
         case "default":{
             ptcgroup.particle = new Array(1);
             for(var i=0; i<ptcgroup.particle.length; i++){
@@ -68,6 +69,94 @@ function registerPtcGroup(x,y,type){
                     ddr : -0.1,
                     drawtype : "arc",
                     class : "default",
+                    available : true,
+                };
+            }
+            break;
+        }
+
+        case "damaging_ice":{
+            ptcgroup.particle = new Array(1);
+            for(var i=0; i<ptcgroup.particle.length; i++){
+                var r = 2*Math.PI*Math.random();
+                ptcgroup.particle[i] = {
+                    x : 0,
+                    y : 0,
+                    dx : Math.cos(r),
+                    ddx : 0,
+                    dy : Math.sin(r),
+                    ddy : 0,
+                    r : 0,
+                    dr : 1.8,
+                    ddr : -0.1,
+                    drawtype : "arc",
+                    class : "ice",
+                    available : true,
+                };
+            }
+            break;
+        }
+
+        case "damaging_fire":{
+            ptcgroup.particle = new Array(1);
+            for(var i=0; i<ptcgroup.particle.length; i++){
+                var r = 2*Math.PI*Math.random();
+                ptcgroup.particle[i] = {
+                    x : 0,
+                    y : 0,
+                    dx : Math.cos(r),
+                    ddx : 0,
+                    dy : Math.sin(r),
+                    ddy : 0,
+                    r : 0,
+                    dr : 1.8,
+                    ddr : -0.1,
+                    drawtype : "arc",
+                    class : "fire",
+                    available : true,
+                };
+            }
+            break;
+        }
+
+        case "stun":{
+            ptcgroup.particle = new Array(1);
+            for(var i=0; i<ptcgroup.particle.length; i++){
+                var r = 2*Math.PI*Math.random();
+                ptcgroup.particle[i] = {
+                    x : Math.cos(r)*Math.random()*paddle.width*0.8,
+                    y : Math.sin(r)*Math.random()*paddle.height*0.8,
+                    dx : 0,
+                    ddx : 0,
+                    dy : 0,
+                    ddy : 0,
+                    r : 0,
+                    dr : 0.5,
+                    ddr : -0.05,
+                    drawtype : "arc",
+                    class : "stun",
+                    available : true,
+                };
+            }
+            break;
+        }
+
+        case "damaging_nightmare":{
+            ptcgroup.particle = new Array(1);
+            for(var i=0; i<ptcgroup.particle.length; i++){
+                var r = 2*Math.PI*Math.random();
+                ptcgroup.particle[i] = {
+                    x : Math.cos(r)*Math.random()*paddle.width*0.8,
+                    y : Math.sin(r)*Math.random()*paddle.height*0.8,
+                    dx : 0,
+                    ddx : 0,
+                    dy : 0,
+                    ddy : 0,
+                    r : 0,
+                    dr : 2.5,
+                    ddr : -0.15,
+                    drawtype : "arc",
+                    class : "nightmare",
                     available : true,
                 };
             }
@@ -206,7 +295,19 @@ function drawParticle(particle, x, y) {
             ctx.arc(particle.x+x, particle.y+y, particle.r, 0, Math.PI*2);
             switch(particle.class){
                 case "default":
-                    ctx.fillStyle = "#dddddd";
+                    ctx.fillStyle = "#dddddddd";
+                    break;
+                case "stun":
+                    ctx.fillStyle = "#55bb55dd";
+                    break;
+                case "fire":
+                    ctx.fillStyle = "#ccaa33dd";
+                    break;
+                case "ice":
+                    ctx.fillStyle = "#aaddffdd";
+                    break;
+                case "nightmare":
+                    ctx.fillStyle = "#660066dd";
                     break;
             }
             break;

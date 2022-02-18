@@ -78,9 +78,6 @@ function mainPhase(){
                 
             }
 
-
-
-    
             if(score != bscore && score%5 == 0){
                 for(var k = 0; k<num_of_enemies; k++){
                     enemy[k].width  = 40;
@@ -97,12 +94,18 @@ function mainPhase(){
 
     for(var i = 0; i<num_of_enemies; i++){
         if(enemy[i].type == "normal"){
-            if(enemy[3].x > 435 || enemy[0].x < 5) {
-                enemy[i].dx = -enemy[i].dx;
+            if(enemy[3].x > 435){
+                enemy[i].dx = -Math.abs(enemy[i].dx);
+            }
+            if (enemy[0].x < 5) {
+                enemy[i].dx = Math.abs(enemy[i].dx);
             }
 
-            if(enemy[i].y > 200 || enemy[i].y < 10) {
-                enemy[i].dy = -enemy[i].dy;
+            if(enemy[i].y > 200){
+                enemy[i].dy = -Math.abs(enemy[i].dy);
+            }
+            if (enemy[i].y < 10) {
+                enemy[i].dy = Math.abs(enemy[i].dy);
             }
         }
 

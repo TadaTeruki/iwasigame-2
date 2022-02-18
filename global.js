@@ -9,7 +9,7 @@ var magic = new Array(num_of_magics);
 
 var rightpressed, leftpressed, uppressed, meteo_called, enterpressed, recover_called;
 var bullet_ad, score, max_normal_score, magictime, def,
-    abxa, abya, absam, aba,
+    abxa, abya, absam, aba, down,
     timeend, atktime, down, 
     boss_flag, setr, bullet_speed, gameover, gameclear;
 
@@ -48,7 +48,7 @@ function initGame(){
     game.ap = 0;
     game.dap = 1;
     game.boost_dap = 2;
-    
+    down = 0;
 
     bullet_speed = -5;
 
