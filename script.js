@@ -160,9 +160,9 @@ function gameLoop() {
     // キー関係
     
     if(rightpressed && paddle.x < game_screen.width-paddle.width) {
-        paddle.x += (3-down)*1.5;
+        paddle.x += (3-down);
     } else if(leftpressed && paddle.x > 0) {
-        paddle.x -= (3-down)*1.5;
+        paddle.x -= (3-down);
     }
 
     for(var i = 0; i<num_of_bullets; i++){

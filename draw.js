@@ -25,10 +25,10 @@ function drawblocks(){
         ctx.fillStyle = "#cc3333";
         //drawRectFixed(enemy[i].x, enemy[i].y+enemy[i].apy, enemy[i].width, enemy[i].height);
         putImage(ctx, "resources/enemy.png",
-                    enemy[i].x+enemy[i].width/2,
-                    enemy[i].y+enemy[i].apy+enemy[i].height/2,
-                    enemy[i].width*1.3,
-                    enemy[i].height*1.3,
+                    (enemy[i].x+enemy[i].width/2)*getFixScale(),
+                    (enemy[i].y+enemy[i].apy+enemy[i].height/2)*getFixScale(),
+                    (enemy[i].width*1.3)*getFixScale(),
+                    (enemy[i].height*1.3)*getFixScale(),
                     POSITION_CENTER, SIZE_FIX)
     }
 }
