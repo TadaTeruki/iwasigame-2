@@ -42,12 +42,18 @@ function mainPhase(){
         switch(random){
             case 0: // 火攻撃
                 setFireMagic(ex, ey);
+                audio_table["audio/fire.mp3"].currentTime = 0;
+                audio_table["audio/fire.mp3"].play();
                 break;
             case 1: // 氷攻撃
                 setIceMagic(ex, ey);
+                audio_table["audio/ice.mp3"].currentTime = 0;
+                audio_table["audio/ice.mp3"].play();
                 break;
             case 2: // 雷攻撃
                 setStunMagic(ex, ey);
+                audio_table["audio/stun.mp3"].currentTime = 0;
+                audio_table["audio/stun.mp3"].play();
                 break;
         }
         
@@ -65,6 +71,7 @@ function mainPhase(){
             var bullet_hit = (enemy[i].x < bullet[j].x && bullet[j].x < enemy[i].x+enemy[i].width && enemy[i].y < bullet[j].y && bullet[j].y < enemy[i].y+enemy[i].height);
             
             if (enemy[i].width != 0 && (bullet_hit || ab_hit)){
+                
                 enemy[i].width = 0;
                 game_point += 1;
                 game.kill += 1;
@@ -76,6 +83,8 @@ function mainPhase(){
                 if(ab_hit){
                     registerPtcGroup(abxa, abya, "meteo_attack");
                 }
+                audio_table["audio/destroy_enemy.mp3"].currentTime = 0;
+                audio_table["audio/destroy_enemy.mp3"].play();
                 
             }
 
@@ -86,6 +95,8 @@ function mainPhase(){
                     enemy[k].apy= enemy[i].apy_start;
                     sr = 40;
                 }
+                audio_table["audio/ready.mp3"].currentTime = 0;
+                audio_table["audio/ready.mp3"].play();
             }
         }
     }
@@ -140,15 +151,23 @@ function bossPhase(){
         switch(random){
             case 0: // 火攻撃
                 setFireMagic(ex, ey);
+                audio_table["audio/fire.mp3"].currentTime = 0;
+                audio_table["audio/fire.mp3"].play();
                 break;
             case 1: // 氷攻撃
                 setIceMagic(ex, ey);
+                audio_table["audio/ice.mp3"].currentTime = 0;
+                audio_table["audio/ice.mp3"].play();
                 break;
             case 2: // 雷攻撃
                 setStunMagic(ex, ey);
+                audio_table["audio/stun.mp3"].currentTime = 0;
+                audio_table["audio/stun.mp3"].play();
                 break;
             case 3: // 闇攻撃
                 setNightmareMagic(ex, ey);
+                audio_table["audio/nightmare.mp3"].currentTime = 0;
+                audio_table["audio/nightmare.mp3"].play();
                 break;
         }
     }

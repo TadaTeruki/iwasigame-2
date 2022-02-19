@@ -26,6 +26,19 @@ window.onload = function(){
         "resources/robo.png",
         "resources/fire.png",
         "resources/nightmare.png",
+        "audio/boss_destroy.mp3",
+        "audio/bullet.mp3",
+        "audio/destroy_enemy.mp3",
+        "audio/fire.mp3",
+        "audio/gameover.mp3",
+        "audio/ice.mp3",
+        "audio/nightmare.mp3",
+        "audio/ready.mp3",
+        "audio/recovery.mp3",
+        "audio/stun.mp3",
+        "audio/ult.mp3",
+        "audio/caution.mp3",
+
     ], function(){
         startTitleScene();
         loop();
@@ -146,12 +159,17 @@ function gameLoop() {
             bullet[bullet_ad].dy = bullet_speed;
             game.mp--;
             bullet_ad ++;
+            
             if(bullet_ad >= num_of_bullets){
                 bullet_ad = 0;
             }
             upreleased = false;
+            audio_table["audio/bullet.mp3"].currentTime = 0;
+            audio_table["audio/bullet.mp3"].play();
         } else {
             setAnnounce("MP shortage","Press [1] key to Use 'MP recovery'", 100);
+            audio_table["audio/caution.mp3"].currentTime = 0;
+            audio_table["audio/caution.mp3"].play();
         }
 
     }
@@ -179,6 +197,8 @@ function gameLoop() {
     if(game.hp < 1) {
         if(gameover == false){
             setAnnounce("Game Over", "You lose");
+            audio_table["audio/gameover.mp3"].currentTime = 0;
+            audio_table["audio/gameover.mp3"].play();
             registerPtcGroup(paddle.x+paddle.width/2, paddle.y+paddle.height/2, "destroy_player");
         }
         
@@ -204,6 +224,8 @@ function gameLoop() {
         if(gameclear == false){
             wait = 300;
             gameclear = true;
+            audio_table["audio/boss_destroy.mp3"].currentTime = 0;
+            audio_table["audio/boss_destroy.mp3"].play();
         }
     }
 
@@ -266,6 +288,7 @@ function gameLoop() {
             game.hp -= magic[i].damage;
             if(magic[i].type == "stun"){
                 down = 2.0;
+                audio_table["audio/ice.mp3"].play();
             }
             if(gameover == false){
                 
@@ -293,17 +316,23 @@ function gameLoop() {
             aba = 1;
             game.ap = 0;
             setAnnounce("- Meteo Fall -", "", 100);
+            audio_table["audio/fire.mp3"].currentTime = 0;
+            audio_table["audio/fire.mp3"].play();
             meteo_called == false;
         }
         if(recover_called == true) {
             game.mp = game.max_mp;
             game.ap = 0;
             setAnnounce("- MP Recovery -", "MP is now full", 100);
+            audio_table["audio/recovery.mp3"].currentTime = 0;
+            audio_table["audio/recovery.mp3"].play();
             recover_called == false;
         }
     } else {
         if(meteo_called == true || recover_called == true) {
             setAnnounce("Ability Point is not Full", "Wait", 100);
+            audio_table["audio/caution.mp3"].currentTime = 0;
+            audio_table["audio/caution.mp3"].play();
         }
     }
 
@@ -336,11 +365,18 @@ function gameLoop() {
             } else {
                 setAnnounce("- ULT start -", "Ability Point boost x2", 100);
             }
+            audio_table["audio/ult.mp3"].currentTime = 0;
+            audio_table["audio/ult.mp3"].play();
             
-        } else if(game_point < game.ult_game_point){
-            setAnnounce("ULT Point is not Full", "Destroy enemies more", 100);
         } else {
-            setAnnounce("ULT Point is not Full", "Wait", 100);
+            audio_table["audio/caution.mp3"].currentTime = 0;
+            audio_table["audio/caution.mp3"].play();
+            if(game_point < game.ult_game_point){
+                setAnnounce("ULT Point is not Full", "Destroy enemies more", 100);
+
+            } else {
+                setAnnounce("ULT Point is not Full", "Wait", 100);
+            }
         }
     }
 
