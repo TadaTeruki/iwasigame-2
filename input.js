@@ -12,12 +12,13 @@ function keyDownHandler(e) {
     if(e.key == "1") {
         recover_called = true;
     }
-    if(e.key == "2"  || e.key == "Down"  || e.key == "ArrowDown") {
+    if(e.key == "2") {
         meteo_called = true;
     }
     if(e.key == "Enter") {
         enterpressed = true;
     }
+    
 }
     
 function keyUpHandler(e) {
@@ -29,15 +30,26 @@ function keyUpHandler(e) {
     }
     if(e.key == "Up" || e.key == "ArrowUp") {
         uppressed = false;
+        upreleased = true;
     }
     if(e.key == "1") {
         recover_called = false;
     }
-    if(e.key == "2"  || e.key == "Down"  || e.key == "ArrowDown") {
+    if(e.key == "2") {
         meteo_called = false;
     }
+    if(e.key == "p"){
+        pause = !pause;
+        if(pause){
+            setAnnounce("PAUSE", "Press key [p] to resume");
+        } else {
+            setAnnounce("Good luck!", "", 50);
+        }
+    }
     if(e.key == "Enter") {
-        enterpressed = false;
+        if(scene != "title"){
+            enterpressed = false;
+        }
     }
 }
 

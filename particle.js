@@ -291,8 +291,7 @@ function drawParticle(particle, x, y) {
 
     switch(particle.drawtype){
         case "arc":{
-            ctx.beginPath();
-            ctx.arc(particle.x+x, particle.y+y, particle.r, 0, Math.PI*2);
+            
             switch(particle.class){
                 case "default":
                     ctx.fillStyle = "#dddddddd";
@@ -310,10 +309,9 @@ function drawParticle(particle, x, y) {
                     ctx.fillStyle = "#660066dd";
                     break;
             }
+            drawArcFixed(particle.x+x, particle.y+y, particle.r);
             break;
+            
         }
     }
-    
-    ctx.fill();
-    ctx.closePath();
 }

@@ -7,11 +7,13 @@ var bullet = new Array(num_of_bullets);
 let num_of_magics = 5; // 相手の弾の数
 var magic = new Array(num_of_magics);
 
-var rightpressed, leftpressed, uppressed, meteo_called, enterpressed, recover_called;
-var bullet_ad, score, max_normal_score, magictime, def,
+let num_of_clouds = 4;
+
+var rightpressed, leftpressed, uppressed, meteo_called, enterpressed, recover_called, upreleased;
+var bullet_ad, game_point, max_normal_game_point, magictime, def,
     abxa, abya, absam, aba, down,
-    timeend, atktime, down, 
-    boss_flag, setr, bullet_speed, gameover, gameclear;
+    timeend, atktime, down, score,
+    boss_flag, setr, bullet_speed, gameover, gameclear, pause;
 
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
@@ -23,6 +25,8 @@ var label_box = {};
 var game_screen = {};
 
 var game = {};
+game.alltime = 0;
+game.kill = 0;
 
 var wait = 0;
 
@@ -32,13 +36,17 @@ leftpressed = false;
 uppressed = false;
 meteo_called = false;
 enterpressed = false;
+upreleased = true;
 
 function initGame(){
     bullet_ad = 0;
-    score = 0;
+    game_point = 0;
     gameover = false;
     gameclear = false;
+    pause = false;
 
+    game.alltime = 0;
+    game.kill = 0;
     game.max_hp = 800;
     game.hp = game.max_hp;
     game.max_mp = 30;
@@ -57,8 +65,8 @@ function initGame(){
     abxa = 0;
     abya = 0;
     absa = 0;
-    max_normal_score = 20;
-    game.ult_score = 16;
+    max_normal_game_point = 20;
+    game.ult_game_point = 16;
     aba = 0;
     timeend = 0;
     atktime = 0;
@@ -86,7 +94,7 @@ function initGame(){
     paddle.width = 30;
     paddle.height = 30;
     paddle.x = (game_screen.width-paddle.width)/2;
-    paddle.y = (game_screen.height-paddle.height)*0.9;
+    paddle.y = (game_screen.height-paddle.height)*0.8;
 
     for(var i = 0; i<num_of_enemies; i++){
         enemy[i] = {};
@@ -110,8 +118,8 @@ function initGame(){
         }
         enemy[i].apy_start = -500;
         enemy[i].apy= enemy[i].apy_start;
-        enemy[i].width  = 40;
-        enemy[i].height = 30;
+        enemy[i].width  = 60;
+        enemy[i].height = 45;
     
     }
     
@@ -128,6 +136,8 @@ function initGame(){
         magic[i] = {};
     }
     initMagic();
+
+    enterpressed = false;
 }
 
 

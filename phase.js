@@ -17,7 +17,7 @@ function mainPhase(){
                         enemy[i].dx = -3;
                     }
 
-                    enemy[i].y = Math.random() < 0.5 ? 200:300;
+                    enemy[i].y = Math.random() < 0.5 ? 150:250;
                 }
             }
             if(Math.abs(enemy[i].apy) < 100.0){
@@ -61,12 +61,13 @@ function mainPhase(){
             (enemy[i].x < abxa-absa && abxa-absa < enemy[i].x+enemy[i].width && enemy[i].y < abya && abya < enemy[i].y+enemy[i].height);
 
         for(var j = 0; j<num_of_bullets; j++){
-            var bscore = score;
+            var bgame_point = game_point;
             var bullet_hit = (enemy[i].x < bullet[j].x && bullet[j].x < enemy[i].x+enemy[i].width && enemy[i].y < bullet[j].y && bullet[j].y < enemy[i].y+enemy[i].height);
             
             if (enemy[i].width != 0 && (bullet_hit || ab_hit)){
                 enemy[i].width = 0;
-                score += 1;
+                game_point += 1;
+                game.kill += 1;
                 
                 if(bullet_hit){
                     registerPtcGroup(bullet[j].x, bullet[j].y, "destroy_enemy");
@@ -78,10 +79,10 @@ function mainPhase(){
                 
             }
 
-            if(score != bscore && score%5 == 0){
+            if(game_point != bgame_point && game_point%5 == 0){
                 for(var k = 0; k<num_of_enemies; k++){
-                    enemy[k].width  = 40;
-                    enemy[k].height = 30;
+                    enemy[k].width  = 60;
+                    enemy[k].height = 45;
                     enemy[k].apy= enemy[i].apy_start;
                     sr = 40;
                 }

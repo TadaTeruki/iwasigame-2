@@ -3,12 +3,56 @@ window.onload = function(){
 
     game_screen.width = 480;
     game_screen.height = 640;
-    startTitleScene()
+
+    setCanvas();
+    setLoadSceneLabel();
+    drawLabel();
+
+    loadResources([
+        "resources/back.png",
+        "resources/frame.png",
+        "resources/girl.png",
+        "resources/mini.png",
+        "resources/start.png",
+        "resources/logo.png",
+        "resources/game_bg.png",
+        "resources/cloudA.png",
+        "resources/cloudB.png",
+        "resources/cloudC.png",
+        "resources/cloudD.png",
+        "resources/cloudE.png",
+        "resources/enemy.png",
+        "resources/ice.png",
+        "resources/robo.png",
+        "resources/fire.png",
+        "resources/nightmare.png",
+    ], function(){
+        startTitleScene();
+        loop();
+    })
+    
+    
 
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
-    loop();
+    window.addEventListener("resize", setCanvas, false);
+
     
+    
+}
+
+function setCanvas(){
+    canvas.width =
+        Math.min(window.innerWidth, window.innerHeight/game_screen.height*game_screen.width);// * (1.0-canvas_margin_scale*2)
+    canvas.height =
+        Math.min(window.innerHeight, window.innerWidth/game_screen.width*game_screen.height);// * (1.0-canvas_margin_scale*2)
+
+
+    if(canvas.width < game_screen.width || canvas.height < game_screen.height){
+        canvas.width = game_screen.width;
+        canvas.height = game_screen.height;
+    }
+
 }
 
 function loop(){
@@ -42,13 +86,15 @@ function startGameToPressEnter(){
 
 function resultLoop() {
     drawLabel();
-    startGameToPressEnter();
+    
     updateResultSceneLabel();
-
+    startGameToPressEnter();
+    
 }
 
 function titleLoop() {
     drawLabel();
+    updateTitleSceneLabel();
     startGameToPressEnter();
 }
 
@@ -61,11 +107,21 @@ function gameLoop() {
     drawblocks();
     drawMagics();
     drawBoss();
-    processMagics();
+    
     drawAbility();
     updateGameSceneLabel();
     drawPtcGroup();
+    
+
+    if(pause){
+        return;
+    }
+
+    processMagics();
     processPtcGroup();
+
+    game.alltime++;
+
     //paddle
     
     for(var i = 0; i<num_of_bullets; i++){
@@ -85,7 +141,7 @@ function gameLoop() {
         }
     }
 
-    if(uppressed == true){
+    if(uppressed == true && upreleased == true){
         if(game.mp > 0){
             bullet[bullet_ad].dy = bullet_speed;
             game.mp--;
@@ -93,7 +149,7 @@ function gameLoop() {
             if(bullet_ad >= num_of_bullets){
                 bullet_ad = 0;
             }
-            uppressed = false;
+            upreleased = false;
         } else {
             setAnnounce("MP shortage","Press [1] key to Use 'MP recovery'", 100);
         }
@@ -104,9 +160,9 @@ function gameLoop() {
     // キー関係
     
     if(rightpressed && paddle.x < game_screen.width-paddle.width) {
-        paddle.x += 3-down;
+        paddle.x += (3-down)*1.5;
     } else if(leftpressed && paddle.x > 0) {
-        paddle.x -= 3-down;
+        paddle.x -= (3-down)*1.5;
     }
 
     for(var i = 0; i<num_of_bullets; i++){
@@ -126,8 +182,7 @@ function gameLoop() {
             registerPtcGroup(paddle.x+paddle.width/2, paddle.y+paddle.height/2, "destroy_player");
         }
         
-        paddle.x += paddle.width*(1-0.9)/2;
-        paddle.width *= 0.9;
+        paddle.width = 0;
         for(var i = 0; i<num_of_bullets; i++){
             bullet[i].radius *= 0.9;
         }
@@ -185,7 +240,7 @@ function gameLoop() {
     }
     
     //ボス戦
-    if(score == max_normal_score) {
+    if(game_point >= max_normal_game_point && boss_flag == 0) {
         wait = 100;
         boss_flag = 1;
 
@@ -193,7 +248,7 @@ function gameLoop() {
         boss.height = 50;
         boss.x = game_screen.width/2-boss.width/2;
         boss.y = 150;
-        score += 20;
+        game_point += 20;
         magictime = -wait;
         setAnnounce("Warning", "", 300, 100);
         for(var i = 0; i<num_of_enemies; i++){
@@ -272,7 +327,7 @@ function gameLoop() {
     }
     
     if(enterpressed == true){
-        if(score >= game.ult_score && game.ult == game.ult_max) {
+        if(game_point >= game.ult_game_point && game.ult == game.ult_max) {
             enterpressed = false;
             game.ult_is_available = true;
             game.ult = 0;
@@ -282,7 +337,7 @@ function gameLoop() {
                 setAnnounce("- ULT start -", "Ability Point boost x2", 100);
             }
             
-        } else if(score < game.ult_score){
+        } else if(game_point < game.ult_game_point){
             setAnnounce("ULT Point is not Full", "Destroy enemies more", 100);
         } else {
             setAnnounce("ULT Point is not Full", "Wait", 100);
