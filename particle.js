@@ -226,6 +226,70 @@ function registerPtcGroup(x,y,type){
             }
             break;
         }
+        case "ice_ef":{
+            ptcgroup.particle = new Array(1);
+            for(var i=0; i<ptcgroup.particle.length; i++){
+                var r = 2*Math.PI*Math.random();
+                ptcgroup.particle[i] = {
+                    x : Math.cos(r)*Math.random()*paddle.width,
+                    y : Math.sin(r)*Math.random()*paddle.height,
+                    dx : 0,
+                    ddx : 0,
+                    dy : 0,
+                    ddy : 0,
+                    r : 0,
+                    dr : 0.6,
+                    ddr : -0.05,
+                    drawtype : "arc",
+                    class : "ice",
+                    available : true,
+                };
+            }
+            break;
+        }
+        case "fire_ef":{
+            ptcgroup.particle = new Array(1);
+            for(var i=0; i<ptcgroup.particle.length; i++){
+                var r = 2*Math.PI*Math.random();
+                ptcgroup.particle[i] = {
+                    x : Math.cos(r)*Math.random()*paddle.width*1.2,
+                    y : Math.sin(r)*Math.random()*paddle.height*1.2,
+                    dx : 0,
+                    ddx : 0,
+                    dy : 0,
+                    ddy : 0,
+                    r : 0,
+                    dr : 0.7,
+                    ddr : -0.05,
+                    drawtype : "arc",
+                    class : "fire_ef",
+                    available : true,
+                };
+            }
+            break;
+        }
+        case "stun_ef":{
+            ptcgroup.particle = new Array(1);
+            for(var i=0; i<ptcgroup.particle.length; i++){
+                var r = 2*Math.PI*Math.random();
+                ptcgroup.particle[i] = {
+                    x : Math.cos(r)*Math.random()*paddle.width*0.8,
+                    y : Math.sin(r)*Math.random()*paddle.height*0.8,
+                    dx : 0,
+                    ddx : 0,
+                    dy : 0,
+                    ddy : 0,
+                    r : 0,
+                    dr : 0.6,
+                    ddr : -0.05,
+                    drawtype : "arc",
+                    class : "stun_ef",
+                    available : true,
+                };
+            }
+            break;
+        }
+
     }
     
     ptcgroup_box[ptcgroup_ad] = ptcgroup;
@@ -307,6 +371,12 @@ function drawParticle(particle, x, y) {
                     break;
                 case "nightmare":
                     ctx.fillStyle = "#660066dd";
+                    break;
+                case "stun_ef":
+                    ctx.fillStyle = "#dddd88dd";
+                    break;
+                case "fire_ef":
+                    ctx.fillStyle = "#ee7733dd";
                     break;
             }
             drawArcFixed(particle.x+x, particle.y+y, particle.r);

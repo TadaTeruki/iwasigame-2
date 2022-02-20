@@ -560,11 +560,11 @@ function getTimeBonusScore(){
 }
 
 function getHPBonusScore(){
-    return Math.abs(Math.floor(game.hp))/2;
+    return Math.floor(Math.abs(Math.max(game.hp, 0.0))/2);
 }
 
 function getTotalScore(){
-    return getGameScore()+getTimeBonusScore()+getHPBonusScore()+getClearBonusScore();
+    return getGameScore()+getHPBonusScore()+(gameclear ? getTimeBonusScore()+getClearBonusScore(): 0);
 }
 
 function updateTitleSceneLabel(){
@@ -607,13 +607,13 @@ function updateResultSceneLabel(){
     if(tscore >= 1000){
         rank_alp = "S";
         rank_col = "#ffffff";
-    } else if(tscore >= 900){
+    } else if(tscore >= 850){
         rank_alp = "A";
         rank_col = "#ffffbb";
-    } else if(tscore >= 800){
+    } else if(tscore >= 700){
         rank_alp = "B";
         rank_col = "#99ddff";
-    } else if(tscore >= 700){
+    } else if(tscore >= 600){
         rank_alp = "C";
         rank_col = "#eecc88";
     }

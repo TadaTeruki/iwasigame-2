@@ -22,6 +22,7 @@ function initMagic(){
 
 function processMagics(){
     for(var i = 0; i<num_of_magics; i++){
+        
         magic[i].mltp = Math.max(magic[i].mltp+magic[i].dmltp, 0.0);
         if(magic[i].y < magic[i].mltpStopY){
             var px = paddle.x+paddle.width/2;

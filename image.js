@@ -47,9 +47,14 @@ function loadResources(src_files, func){
     wait();
 }
 
-function putImage(ctx, src_file, x, y, w, h, position_mode, size_mode){
+function putImageFixed(ctx, src_file, x, y, w, h, position_mode, size_mode, flip_x = false, flip_y = false, rotate = 0){
     if(position_mode == POSITION_NONE) return;
     if(size_mode == SIZE_NONE) return;
+
+    x *= getFixScale();
+    y *= getFixScale();
+    w *= getFixScale();
+    h *= getFixScale();
     
     var image = image_table[src_file];
 
@@ -80,7 +85,30 @@ function putImage(ctx, src_file, x, y, w, h, position_mode, size_mode){
             break;
     }
 
-    ctx.drawImage(image, dx, dy, dw, dh);
-        
+    ctx.save();
+    var xscale = flip_x ? -1:1;
+    var yscale = flip_y ? -1:1;
+    var xfix = flip_x ? -1:0;
+    ctx.scale(xscale, yscale);
+
+    
+    var fx = xscale*dx+dw*xfix;
+    var fy = yscale*dy;
+
+    ctx.translate(fx + dw/2, fy + dh/2);
+
+    if(rotate != 0){
+        ctx.rotate(rotate);
+    }
+
+    ctx.drawImage(image,
+        -dw/2, -dh/2, dw, dh
+    );
+    ctx.restore();
+
+
+
+
+    //ctx.drawImage(image, dx, dy, dw, dh);   
 
 }

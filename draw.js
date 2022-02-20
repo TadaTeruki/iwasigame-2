@@ -22,20 +22,24 @@ function drawArcFixed(x, y, r){
 
 function drawblocks(){
     for(var i = 0; i<num_of_enemies; i++){
-        ctx.fillStyle = "#cc3333";
-        //drawRectFixed(enemy[i].x, enemy[i].y+enemy[i].apy, enemy[i].width, enemy[i].height);
-        putImage(ctx, "resources/enemy.png",
-                    (enemy[i].x+enemy[i].width/2)*getFixScale(),
-                    (enemy[i].y+enemy[i].apy+enemy[i].height/2)*getFixScale(),
-                    (enemy[i].width*1.3)*getFixScale(),
-                    (enemy[i].height*1.3)*getFixScale(),
+        //ctx.fillStyle = "#cc3333";
+        putImageFixed(ctx, "resources/enemy.png",
+                    (enemy[i].x+enemy[i].width/2),
+                    (enemy[i].y+enemy[i].apy+enemy[i].height/2),
+                    (enemy[i].width*1.1),
+                    (enemy[i].height*1.1),
                     POSITION_CENTER, SIZE_FIX)
     }
 }
 
 function drawPaddle() {
-    ctx.fillStyle = "#0095DD";
-    drawRectFixed(paddle.x, paddle.y, paddle.width, paddle.height);
+    //ctx.fillStyle = "#0095DD";
+    //drawRectFixed(paddle.x, paddle.y, paddle.width, paddle.height);
+    putImageFixed(ctx, "resources/witch.png",
+                    paddle.x+paddle.width/2,
+                    paddle.y+paddle.height/2,
+                    paddle.width*1.5,
+                    paddle.height*1.5, POSITION_CENTER, SIZE_FIX);
 }
 
 function drawBullets() {
@@ -47,19 +51,91 @@ function drawBullets() {
 
 function drawMagics() {
     for(var i = 0; i<num_of_magics; i++){
-        ctx.fillStyle = magic[i].color;
+        //ctx.fillStyle = magic[i].color;
+        /*
         drawArcFixed(magic[i].x, magic[i].y, magic[i].radius);
+        */
+        var filename = "resources/fire.png";
+        var xflip = false;
+        var yflip = false;
+        var scale = 1.0;
+        var rotate = 0;
+        switch(magic[i].type){
+            case "fire":{
+                filename = "resources/fire.png";
+                
+                rotate = Math.atan((paddle.y-magic[i].y)/(paddle.x-magic[i].x));
+                if(magic[i].x > paddle.x){
+                    rotate += Math.PI;
+                }
+                rotate -= Math.PI/2;
+                scale = 1.5;
+                rotate += game.alltime*1.2*Math.max(0.0, (magic[i].y-paddle.y*0.8)*0.01);
+                registerPtcGroup(magic[i].x, magic[i].y, "fire_ef");
+                break;
+            }
+            case "ice":{
+                filename = "resources/ice.png";
+                rotate = Math.atan((paddle.y-magic[i].y)/(paddle.x-magic[i].x));
+                if(magic[i].x > paddle.x){
+                    rotate += Math.PI;
+                }
+                scale = 1.2;
+                rotate += Math.PI/2;
+                registerPtcGroup(magic[i].x, magic[i].y, "ice_ef");
+                
+                break;
+            }
+            case "stun":{
+                filename = "resources/stun.png";
+                rotate += game.alltime*0.8;
+                registerPtcGroup(magic[i].x, magic[i].y, "stun_ef");
+                scale = 1.2;
+                break;
+            }
+            case "nightmare":{
+                filename = "resources/nightmare.png";
+                rotate += game.alltime*0.5;
+                scale = 1.5;
+                break;
+            }
+        }
+        
+        putImageFixed(ctx, filename,
+            magic[i].x,
+            magic[i].y,
+            magic[i].radius*scale,
+            magic[i].radius*scale,
+            POSITION_CENTER, SIZE_FIX,
+            xflip, yflip, rotate);
+        
     }
 }
 
 function drawBoss() {
-    ctx.fillStyle = "#55cc55";
-    drawRectFixed(boss.x, boss.y+boss.apy, boss.width, boss.height);
+    //ctx.fillStyle = "#55cc55";
+    //drawRectFixed(boss.x, boss.y+boss.apy, boss.width, boss.height);
+    putImageFixed(ctx, "resources/robo.png",
+        boss.x + boss.width /2,
+        boss.y+boss.apy + boss.height/2,
+        boss.width*1.3,
+        boss.height*1.3,
+        POSITION_CENTER, SIZE_FIX,
+        false, false, 0);
 }
 
 function drawAbility() {
-    ctx.fillStyle = "#dddddd";
-    drawArcFixed(abxa, abya, absa);
+    //ctx.fillStyle = "#dddddd";
+    //drawArcFixed(abxa, abya, absa);
+    var rotate = game.alltime*0.5;
+    putImageFixed(ctx, "resources/spellring.png",
+        abxa,
+        abya,
+        absa*1.3,
+        absa*1.3,
+        POSITION_CENTER, SIZE_FIX,
+        false, false, rotate);
+    registerPtcGroup(abxa, abya, "stun_ef");
 }
 
 function drawLabel() {
@@ -151,7 +227,7 @@ function drawLabel() {
                 ctx.shadowBlur = 0
             }
             if(label.image != undefined){
-                putImage(ctx, label.image, rect_x*getFixScale(), rect_y*getFixScale(), rect_width*getFixScale(), rect_height*getFixScale(), label.image_pos, label.image_size)
+                putImageFixed(ctx, label.image, rect_x, rect_y, rect_width, rect_height, label.image_pos, label.image_size)
             }
         }
 

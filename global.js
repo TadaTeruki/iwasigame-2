@@ -63,7 +63,7 @@ function initGame(){
     magictime = 0;
     def = 0;
     abxa = 0;
-    abya = 0;
+    abya = -100;
     absa = 0;
     max_normal_game_point = 20;
     game.ult_game_point = 16;

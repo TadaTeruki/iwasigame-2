@@ -39,6 +39,8 @@ function keyUpHandler(e) {
         meteo_called = false;
     }
     if(e.key == "p"){
+        audio_table["audio/button.mp3"].currentTime = 0;
+        audio_table["audio/button.mp3"].play();
         pause = !pause;
         if(pause){
             setAnnounce("PAUSE", "Press key [p] to resume");

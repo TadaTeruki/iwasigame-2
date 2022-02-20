@@ -25,6 +25,10 @@ window.onload = function(){
         "resources/ice.png",
         "resources/robo.png",
         "resources/fire.png",
+        "resources/stun.png",
+        "resources/witch.png",
+        "resources/snow.png",
+        "resources/spellring.png",
         "resources/nightmare.png",
         "audio/boss_destroy.mp3",
         "audio/bullet.mp3",
@@ -38,13 +42,15 @@ window.onload = function(){
         "audio/stun.mp3",
         "audio/ult.mp3",
         "audio/caution.mp3",
+        "audio/battle02.mp3",
+        "audio/battle06.mp3",
+        "audio/button.mp3",
+        "audio/result.mp3",
 
     ], function(){
         startTitleScene();
         loop();
     })
-    
-    
 
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
@@ -132,8 +138,11 @@ function gameLoop() {
 
     processMagics();
     processPtcGroup();
-
-    game.alltime++;
+    
+    if(gameover == false && gameclear == false){
+        game.alltime++;
+    }
+    
 
     //paddle
     
@@ -197,6 +206,8 @@ function gameLoop() {
     if(game.hp < 1) {
         if(gameover == false){
             setAnnounce("Game Over", "You lose");
+            audio_table["audio/battle02.mp3"].pause();
+            audio_table["audio/battle06.mp3"].pause();
             audio_table["audio/gameover.mp3"].currentTime = 0;
             audio_table["audio/gameover.mp3"].play();
             registerPtcGroup(paddle.x+paddle.width/2, paddle.y+paddle.height/2, "destroy_player");
@@ -226,6 +237,8 @@ function gameLoop() {
             gameclear = true;
             audio_table["audio/boss_destroy.mp3"].currentTime = 0;
             audio_table["audio/boss_destroy.mp3"].play();
+            audio_table["audio/battle02.mp3"].pause();
+            audio_table["audio/battle06.mp3"].pause();
         }
     }
 
@@ -265,6 +278,11 @@ function gameLoop() {
     if(game_point >= max_normal_game_point && boss_flag == 0) {
         wait = 100;
         boss_flag = 1;
+
+        audio_table["audio/battle02.mp3"].pause();
+        audio_table["audio/battle06.mp3"].currentTime = 0;
+        audio_table["audio/battle06.mp3"].play();
+        audio_table["audio/battle06.mp3"].loop = true;
 
         boss.width = 60;
         boss.height = 50;
@@ -345,7 +363,7 @@ function gameLoop() {
     }
     
 
-    if(abya < 0) {
+    if(abya < -100) {
         absa = 0;
         meteo_called = false;
     }
