@@ -30,6 +30,7 @@ window.onload = function(){
         "resources/snow.png",
         "resources/spellring.png",
         "resources/nightmare.png",
+        "resources/dragon.png",
         "audio/boss_destroy.mp3",
         "audio/bullet.mp3",
         "audio/destroy_enemy.mp3",
@@ -138,7 +139,7 @@ function gameLoop() {
 
     processMagics();
     processPtcGroup();
-    
+
     if(gameover == false && gameclear == false){
         game.alltime++;
     }

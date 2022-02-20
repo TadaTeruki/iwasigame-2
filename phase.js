@@ -39,8 +39,8 @@ function mainPhase(){
         var ex = enemy[enemyTarget].x+enemy[enemyTarget].width/2;
         var ey = enemy[enemyTarget].y+enemy[enemyTarget].height/2;
 
-        switch(random){
-            case 0: // 火攻撃
+        switch(enemy[enemyTarget].splite){
+            case 2: // 火攻撃
                 setFireMagic(ex, ey);
                 audio_table["audio/fire.mp3"].currentTime = 0;
                 audio_table["audio/fire.mp3"].play();
@@ -50,7 +50,7 @@ function mainPhase(){
                 audio_table["audio/ice.mp3"].currentTime = 0;
                 audio_table["audio/ice.mp3"].play();
                 break;
-            case 2: // 雷攻撃
+            case 0: // 雷攻撃
                 setStunMagic(ex, ey);
                 audio_table["audio/stun.mp3"].currentTime = 0;
                 audio_table["audio/stun.mp3"].play();
@@ -93,6 +93,7 @@ function mainPhase(){
                     enemy[k].width  = 60;
                     enemy[k].height = 45;
                     enemy[k].apy= enemy[i].apy_start;
+                    enemy[k].splite = Math.floor(Math.random()*3);
                     sr = 40;
                 }
                 audio_table["audio/ready.mp3"].currentTime = 0;

@@ -116,6 +116,7 @@ function initGame(){
                 
                 break;
         }
+        enemy[i].splite = Math.floor(Math.random()*3);
         enemy[i].apy_start = -500;
         enemy[i].apy= enemy[i].apy_start;
         enemy[i].width  = 60;

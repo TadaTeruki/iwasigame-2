@@ -21,9 +21,26 @@ function drawArcFixed(x, y, r){
 }
 
 function drawblocks(){
+
+
+
     for(var i = 0; i<num_of_enemies; i++){
+
+        var spl = "resources/enemy.png";
+
+        switch(enemy[i].splite){
+            case 0:
+                spl = "resources/robo.png";
+                break;
+            case 1:
+                spl = "resources/snow.png";
+                break;
+            case 2:
+                spl = "resources/dragon.png";
+                break;
+        }
         //ctx.fillStyle = "#cc3333";
-        putImageFixed(ctx, "resources/enemy.png",
+        putImageFixed(ctx, spl,
                     (enemy[i].x+enemy[i].width/2),
                     (enemy[i].y+enemy[i].apy+enemy[i].height/2),
                     (enemy[i].width*1.1),
@@ -115,13 +132,13 @@ function drawMagics() {
 function drawBoss() {
     //ctx.fillStyle = "#55cc55";
     //drawRectFixed(boss.x, boss.y+boss.apy, boss.width, boss.height);
-    putImageFixed(ctx, "resources/robo.png",
+    putImageFixed(ctx, "resources/enemy.png",
         boss.x + boss.width /2,
         boss.y+boss.apy + boss.height/2,
         boss.width*1.3,
         boss.height*1.3,
         POSITION_CENTER, SIZE_FIX,
-        false, false, 0);
+        boss.dx > 0, false, 0);
 }
 
 function drawAbility() {
