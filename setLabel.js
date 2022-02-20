@@ -556,7 +556,7 @@ function getClearBonusScore(){
 }
 
 function getTimeBonusScore(){
-    return Math.floor(Math.abs(150-game.alltime/100))*2;
+    return Math.floor(Math.abs(130-game.alltime/100))*4;
 }
 
 function getHPBonusScore(){

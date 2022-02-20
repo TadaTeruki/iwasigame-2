@@ -22,8 +22,6 @@ function drawArcFixed(x, y, r){
 
 function drawblocks(){
 
-
-
     for(var i = 0; i<num_of_enemies; i++){
 
         var spl = "resources/enemy.png";
@@ -138,7 +136,7 @@ function drawBoss() {
         boss.width*1.3,
         boss.height*1.3,
         POSITION_CENTER, SIZE_FIX,
-        boss.dx > 0, false, 0);
+        boss.dx >= 0, false, 0);
 }
 
 function drawAbility() {
