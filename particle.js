@@ -1,5 +1,5 @@
 
-var num_of_ptcgroups = 50;
+var num_of_ptcgroups = 100;
 var ptcgroup_ad = 0;
 var ptcgroup_box = new Array(num_of_ptcgroups);
 
